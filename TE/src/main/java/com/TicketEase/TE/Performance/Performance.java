@@ -17,22 +17,22 @@ public class Performance {
     private Long id;
     private String name;
     private String description;
-    private LocalDateTime showStartDate;
-    private LocalDateTime showEndDate;
+    private LocalDateTime performanceStartDate;
+    private LocalDateTime performanceEndDate;
 
     protected Performance(){
     }
 
-    private Performance(final String name, final String description, final LocalDateTime showStartDate,
-                       final LocalDateTime showEndDate) {
+    private Performance(final String name, final String description, final LocalDateTime performanceStartDate,
+                       final LocalDateTime performanceEndDate) {
         this.name = name;
         this.description = description;
-        this.showStartDate = showStartDate;
-        this.showEndDate = showEndDate;
+        this.performanceStartDate = performanceStartDate;
+        this.performanceEndDate = performanceEndDate;
     }
 
-    public static Performance of(final String name, final String description, final LocalDateTime showStartDate,
-                                 final LocalDateTime showEndDate){
-        return new Performance(name, description, showStartDate, showEndDate);
+    public static Performance of(final String name, final String description, final LocalDateTime performanceStartDate,
+                                 final LocalDateTime performanceEndDate){
+        return new Performance(name, description, performanceStartDate, performanceEndDate);
     }
 }

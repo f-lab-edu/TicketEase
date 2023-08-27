@@ -29,8 +29,7 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
+    @OneToOne(mappedBy = "member")
     private Account account;
 
     protected Member(){

@@ -1,0 +1,1 @@
+insert into member (nick_name, password) value ("admin", "123123123");

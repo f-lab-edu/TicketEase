@@ -35,7 +35,7 @@ jobs:
         with:
           mysql version: '8.0'
           host port: 3306
-          mysql database: 'demo'
+          mysql database: 'ticketease'
           mysql root password: ${{ env.dbPw }}
 
       - name: Substitute application.yml variables -> github secrets

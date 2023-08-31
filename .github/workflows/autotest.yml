@@ -47,16 +47,6 @@ jobs:
           spring.datasource.username: ${{ env.dbId }}
           spring.datasource.password: ${{ env.dbPw }}
 
-      - name: Execute SQL scripts
-        run: |
-          while IFS= read -r line; do
-          mysql -h $DB_HOST -P 3306 -u $DB_USERNAME -p$DB_PASSWORD ticketease -e "$line"
-          done < ./src/main/resources/data.sql
-        env:
-          DB_HOST: localhost
-          DB_USERNAME: ${{ env.dbId }}
-          DB_PASSWORD: ${{ env.dbPw }}
-
       - name: Build with Gradle
         run: chmod +x gradlew
 

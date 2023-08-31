@@ -27,24 +27,24 @@ class SignUpServiceTest {
     private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("회원 가입 - 입력값에 오류가 있을때 예외발생")
-    void givenSighUpDto_WhenNoError_thenValidationSuccess() {
+    @DisplayName("회원 가입 - 아이디 길이부족 예외발생")
+    void givenSighUpDto_WhenHasIdLengthError_thenValidationFail() {
         //given
-        SignUpDto signUpDto = SignUpDto.of("held", "1234qr", "1234qwer");
+        SignUpDto signUpDto = SignUpDto.of("hel", "1234qwer", "1234qwer");
         BindingResult bindingResult = new BeanPropertyBindingResult(signUpDto, "signUpDto");
 
         //when
-        bindingResult.addError(new ObjectError("signUpDto", "Passwords do not match"));
+        bindingResult.addError(new ObjectError("signUpDto", "Passwords length"));
 
         //then
         assertThrows(SignUpExceptionHandler.class,() -> signUpService.signUpUserValidation(signUpDto,bindingResult));
     }
 
     @Test
-    @DisplayName("회원 가입 - 입력값에 오류가 없을때 예외미발생")
-    void givenSighUpDto_WhenHasError_thenValidationFail() {
+    @DisplayName("회원 가입 - 패스워드 불일치 예외발생")
+    void givenSighUpDto_WhenPasswordInValid_thenValidationFail() {
         //given
-        SignUpDto signUpDto = SignUpDto.of("held", "1234qr", "1234qwer");
+        SignUpDto signUpDto = SignUpDto.of("hello", "1234qr", "1234qwer");
         BindingResult bindingResult = new BeanPropertyBindingResult(signUpDto, "signUpDto");
 
         //when
@@ -54,7 +54,20 @@ class SignUpServiceTest {
     }
 
     @Test
-    @DisplayName("회원 가입 - 중복 닉네임 없을때 예외미발생")
+    @DisplayName("회원 가입 - 정상적인 요청 가입성공")
+    void givenSighUpDto_WhenVaild_thenValidationSuccess() {
+        //given
+        SignUpDto signUpDto = SignUpDto.of("hello", "1234qwer", "1234qwer");
+        BindingResult bindingResult = new BeanPropertyBindingResult(signUpDto, "signUpDto");
+
+        //when
+
+        //then
+        assertDoesNotThrow(() -> signUpService.signUpUserValidation(signUpDto,bindingResult));
+    }
+
+    @Test
+    @DisplayName("회원 가입 - 중복 닉네임 없을때 가입성공")
     void givenSighUpDto_WhenNoDuplicateName_thenSignUpSuccess() {
         //given
         SignUpDto signUpDto = SignUpDto.of("hellWorld", "1234qwer", "1234qwer");

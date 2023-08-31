@@ -41,7 +41,7 @@ jobs:
       - name: Substitute application.yml variables -> github secrets
         uses: microsoft/variable-substitution@v1
         with:
-          files: ./src/main/resources/application-online.yml
+          files: ./src/main/resources/application-prod.yml
         env:
           spring.datasource.url: ${{ env.dbUrl }}
           spring.datasource.username: ${{ env.dbId }}

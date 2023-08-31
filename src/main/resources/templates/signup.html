@@ -17,8 +17,8 @@
 <div class="signup-form">
   <form th:action="@{signup}" method="post">
     <h2>회원 가입</h2>
-    <div th:if="${invalidReq}"  th:text="${invalidReq}" class="alert alert-danger" >"invalid"</div>
-    <div th:if="${alreadyExist}"  th:text="${alreadyExist}" class="alert alert-warning" >"alreadyExist"</div>
+    <div th:if="${INVALID_SIGNUP_REQUEST}"  th:text="${INVALID_SIGNUP_REQUEST}" class="alert alert-danger" >"invalid"</div>
+    <div th:if="${USER_ALREADY_EXIST}"  th:text="${USER_ALREADY_EXIST}" class="alert alert-warning" >"alreadyExist"</div>
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon"><i class="fa fa-user"></i></span>

@@ -14,4 +14,8 @@ public record SignUpRequest(
     public static SignUpRequest of(String nickname, String password, String confirmPassword){
         return new SignUpRequest(nickname, password, confirmPassword);
     }
+
+    public static SignUpDto toDto(SignUpRequest request){
+        return SignUpDto.of(request.nickname, request.password, request.confirmPassword);
+    }
 }

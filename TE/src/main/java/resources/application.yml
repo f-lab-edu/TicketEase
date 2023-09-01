@@ -1,12 +1,13 @@
 spring:
   datasource:
-    url: ${MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${MYSQL_ID}
-    password: ${MYSQL_PWD}
+    url: ${url}
+    username: ${id}
+    password: ${pw}
   jpa:
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: 'true'
+    hibernate:
+      ddl-auto: create

@@ -10,12 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TicketService{
     private TicketRepository ticketRepository;
-    private PerformanceRepository performanceRepository;
 
-    public TicketService(final TicketRepository ticketRepository,
-                         final PerformanceRepository performanceRepository) {
+    public TicketService(final TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
-        this.performanceRepository = performanceRepository;
     }
 
     public GradeCount countTicketByGradeForPerformance(Long performanceId) {

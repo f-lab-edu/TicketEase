@@ -16,7 +16,8 @@ public class PerformanceDateTime {
         this.performanceEndDateTimeTime = performanceEndDateTime;
     }
 
-    public static PerformanceDateTime of(final LocalDateTime performanceStartDate, final LocalDateTime performanceEndDateTime){
+    public static PerformanceDateTime of(final LocalDateTime performanceStartDate,
+                                         final LocalDateTime performanceEndDateTime){
         return new PerformanceDateTime(performanceStartDate, performanceEndDateTime);
     }
 }

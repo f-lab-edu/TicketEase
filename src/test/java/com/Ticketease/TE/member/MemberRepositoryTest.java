@@ -7,8 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @Transactional
 @SpringBootTest
+@DisplayName("멤버 레포지토리")
 class MemberRepositoryTest {
 
     @Autowired

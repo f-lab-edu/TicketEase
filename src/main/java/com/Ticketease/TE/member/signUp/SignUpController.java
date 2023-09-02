@@ -1,5 +1,6 @@
 package com.Ticketease.TE.member.signUp;
 
+import com.Ticketease.TE.exception.ExceptionCode;
 import com.Ticketease.TE.exception.SignUpExceptionHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,7 @@ public class SignUpController {
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes){
         try{
-            signUpService.signUpUserValidation(SignUpRequest.toDto(request),bindingResult);
-        }catch (SignUpExceptionHandler handler){
-            redirectAttributes.addFlashAttribute(handler.getCode().toString(), handler.getMessage());
-            return "redirect:signup";
-        }
-
-        try {
+            signUpUserValidation(SignUpRequest.toDto(request),bindingResult);
             signUpService.signUpUser(SignUpRequest.toDto(request));
         }catch (SignUpExceptionHandler handler){
             redirectAttributes.addFlashAttribute(handler.getCode().toString(), handler.getMessage());
@@ -40,5 +35,11 @@ public class SignUpController {
 
         redirectAttributes.addFlashAttribute("success", "회원가입이 완료됐습니다.");
         return "redirect:login";
+    }
+
+    private void signUpUserValidation(SignUpDto dto, BindingResult result){
+        if(result.hasErrors() || !dto.password().equals(dto.confirmPassword())){
+            throw new SignUpExceptionHandler(ExceptionCode.INVALID_SIGNUP_REQUEST,ExceptionCode.INVALID_SIGNUP_REQUEST.getDescription());
+        }
     }
 }

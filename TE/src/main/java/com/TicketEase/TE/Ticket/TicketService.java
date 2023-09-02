@@ -17,12 +17,6 @@ public class TicketService{
 
     public GradeCount countTicketByGradeForPerformance(Long performanceId) {
         List<Ticket> tickets = ticketRepository.findByPerformanceId(performanceId);
-        Map<Grade, Integer> result = tickets.stream()
-                .collect(Collectors.groupingBy(
-                        Ticket::getGrade,
-                        ()-> new EnumMap<Grade, Integer>(Grade.class),
-                        Collectors.summingInt(Ticket::getSeatCount)
-                ));
-        return new GradeCount(result);
+        return GradeCount.from(tickets);
     }
 }

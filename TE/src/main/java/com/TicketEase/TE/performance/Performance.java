@@ -41,8 +41,4 @@ public class Performance {
     public void addTicketId(Long ticketId) {
         this.ticketIds.add(ticketId);
     }
-
-    public void removeTicketId(Long ticketId) {
-        this.ticketIds.remove(ticketId);
-    }
 }

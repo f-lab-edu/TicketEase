@@ -3,53 +3,31 @@ package com.TicketEase.TE.Ticket;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.TicketEase.TE.performance.Performance;
+import com.TicketEase.TE.performance.PerformanceDateTime;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.TicketEase.TE.performance.Performance;
-import com.TicketEase.TE.performance.PerformanceDateTime;
-import com.TicketEase.TE.performance.PerformanceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+public class TicketServiceTest {
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class TicketServiceTest {
-
-    @Autowired
-    protected MockMvc mockMvc;
-
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    @Autowired
-    private WebApplicationContext context;
-
-    @MockBean
+    @Mock
     TicketRepository ticketRepository;
 
-    @Autowired
+    @InjectMocks
     TicketService ticketService;
 
-    @MockBean
-    PerformanceRepository performanceRepository;
-
     @BeforeEach
-    public void mockMvcSetUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-        performanceRepository.deleteAll();
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("공연 티켓 잔여 개수 조회에 성공한다")
@@ -79,3 +57,4 @@ class TicketServiceTest {
         assertEquals(expected, actual);
     }
 }
+

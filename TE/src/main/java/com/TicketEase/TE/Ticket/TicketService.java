@@ -1,13 +1,11 @@
 package com.TicketEase.TE.Ticket;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import com.TicketEase.TE.performance.PerformanceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TicketService{
     private TicketRepository ticketRepository;
 

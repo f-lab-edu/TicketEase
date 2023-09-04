@@ -11,6 +11,7 @@ public record SignUpDto (
     public static SignUpDto of(String nickName, String password, String confirmPassword){
         return new SignUpDto(nickName, password, confirmPassword);
     }
+
     public static Member toEntity(SignUpDto dto){
         return Member.of(dto.nickName, dto.password);
     }

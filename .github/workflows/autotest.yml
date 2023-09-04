@@ -1,0 +1,64 @@
+name: Build and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    env:
+      dbUrl: ${{ secrets.MYSQL_URL }}
+      dbId: ${{ secrets.MYSQL_ID }}
+      dbPw: ${{ secrets.MYSQL_PW }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Shutdown default mysql on github action
+        run: sudo service mysql stop
+
+      - name: Setup new MySQL 8.0
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql version: '8.0'
+          host port: 3306
+          mysql database: 'ticketease'
+          mysql root password: ${{ env.dbPw }}
+
+      - name: Substitute application.yml variables -> github secrets
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ./src/main/resources/application-prod.yml
+        env:
+          spring.datasource.url: ${{ env.dbUrl }}
+          spring.datasource.username: ${{ env.dbId }}
+          spring.datasource.password: ${{ env.dbPw }}
+
+      - name: Build with Gradle
+        run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew --info test
+
+      - name: Add Test Coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
+        with:
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "테스트 커버리지!"
+          min-coverage-overall: 60
+          min-coverage-changed-files: 60

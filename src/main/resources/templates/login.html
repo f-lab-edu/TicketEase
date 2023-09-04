@@ -15,7 +15,7 @@
 
 <div class="container mt-4 w-25">
   <!-- Content here -->
-  <form th:action="@{login}" method="post">
+  <form th:action="@{/login}" method="post">
     <div th:if="${success}"  th:text="${success}" class="alert alert-primary" >"good"</div>
     <div th:if="${loginFail}"  th:text="${loginFail}" class="alert alert-danger" >"bad"</div>
     <!-- Email input -->
@@ -33,7 +33,7 @@
 
     <!-- Register buttons -->
     <div class="text-center">
-      <p>회원이 아니신가요? <a th:href="@{signup}">회원가입</a></p>
+      <p>회원이 아니신가요? <a th:href="@{/signup}">회원가입</a></p>
     </div>
   </form>
 

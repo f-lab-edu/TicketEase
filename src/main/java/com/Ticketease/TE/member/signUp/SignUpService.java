@@ -20,7 +20,7 @@ public class SignUpService {
     public Long signUpUser(SignUpDto signUpDto){
         Optional<Member> member = memberRepository.findByNickName(signUpDto.nickName());
         if (member.isEmpty()) {
-            memberRepository.save(SignUpDto.toEntity(signUpDto));
+            memberRepository.save(SignUpDto.toEntity(SignUpDto.encryptPassword(signUpDto)));
             return 0L;
         }else{
             throw new SignUpExceptionHandler(ExceptionCode.USER_ALREADY_EXIST, ExceptionCode.USER_ALREADY_EXIST.getDescription());

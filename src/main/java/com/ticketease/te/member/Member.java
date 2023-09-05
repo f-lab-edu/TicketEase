@@ -18,13 +18,12 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String nickName;
     @CreatedDate
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDateTime;
     @Column(nullable = false)
     private String password;
-
+    private Long accountId;
     protected Member(){
     }
-
     private Member(final String nickName, final String password) {
         this.nickName = nickName;
         this.password = password;

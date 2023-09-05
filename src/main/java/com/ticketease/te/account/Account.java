@@ -12,14 +12,14 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long amount;
+    private Integer amount;
     private Long memberId;
 
     protected Account(){}
-    private Account(final Long amount){
+    private Account(final Integer amount){
         this.amount = amount;
     }
-    public static Account of(final Long amount){
+    public static Account of(final Integer amount){
         return new Account(amount);
     }
     public void calculate(Integer price){

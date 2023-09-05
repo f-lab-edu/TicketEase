@@ -22,6 +22,7 @@ public class Ticket {
     private Grade grade;
 
     private Long performanceId;
+    private Long memberTicketId;
     public void setPerformance(Long performanceId){
         this.performanceId = performanceId;
     }

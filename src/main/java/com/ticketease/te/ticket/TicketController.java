@@ -14,9 +14,9 @@ public class TicketController {
     private TicketService ticketService;
 
     @PostMapping("/ticketReserve")
-    public ResponseEntity<?> reserveTicket(@RequestParam Long memberId, @RequestParam Long ticketId){
+    public ResponseEntity<?> reserveTicket(@RequestParam String nickName, @RequestParam Long ticketId){
         try {
-            ticketService.purchaseTicket(memberId, ticketId);
+            ticketService.purchaseTicket(nickName, ticketId);
             return ResponseEntity.ok("성공적으로 티켓 구매가 되었습니다.");
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

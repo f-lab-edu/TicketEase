@@ -32,6 +32,7 @@ public class Member {
     public static Member of(final String nickName, final String password) {
         return new Member(nickName, password);
     }
-
-
+    public void addAccount(Long accountId){
+        this.accountId = accountId;
+    }
 }

@@ -8,6 +8,7 @@ import com.ticketease.te.member.MemberRepository;
 import com.ticketease.te.memberticket.MemberTicket;
 import com.ticketease.te.memberticket.MemberTicketRepository;
 import com.ticketease.te.performance.Performance;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class TicketService{
     public GradeCount countTicketByGradeForPerformance(Performance performance) {
         return GradeCount.from(ticketRepository.findAllById(performance.getTicketIds()));
     }
-
+    @Transactional
     public void purchaseTicket(final String nickName, final Long ticketId, final Integer requestSeatCount) {
         Member member = memberRepository.findByNickName(nickName)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 이름입니다 닉네임 : " + nickName));
@@ -38,7 +39,7 @@ public class TicketService{
         ticket.calculateSeat(requestSeatCount);
         ticketRepository.save(ticket);
 
-        account.calculate(ticket.getFixedPrice());
+        account.calculate(ticket.getFixedPrice() * requestSeatCount);
         accountRepository.save(account);
 
         MemberTicket memberTicket = MemberTicket.of(member.getId(), ticketId, ticket.getFixedPrice(), requestSeatCount);

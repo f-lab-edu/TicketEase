@@ -31,16 +31,13 @@ public class TicketService{
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
         Account account = accountRepository.findById(member.getAccountId())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
-        if (account.getAmount() < ticket.getFixedPrice()){
-            throw new RuntimeException("잔액이 부족합니다");
-        }
+
+        account.calculate(ticket.getFixedPrice() * requestSeatCount);
+        accountRepository.save(account);
 
         // 좌석의 계수 줄여주기
         ticket.calculateSeat(requestSeatCount);
         ticketRepository.save(ticket);
-
-        account.calculate(ticket.getFixedPrice() * requestSeatCount);
-        accountRepository.save(account);
 
         MemberTicket memberTicket = MemberTicket.of(member.getId(), ticketId, ticket.getFixedPrice(), requestSeatCount);
         memberTicketRepository.save(memberTicket);

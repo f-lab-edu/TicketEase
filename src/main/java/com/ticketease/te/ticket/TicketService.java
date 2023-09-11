@@ -35,7 +35,7 @@ public class TicketService{
         account.calculate(ticket.getFixedPrice() * requestSeatCount);
         accountRepository.save(account);
 
-        ticket.calculateSeat(requestSeatCount);
+        ticket.getSeat().calculateSeat(requestSeatCount);
         ticketRepository.save(ticket);
 
         MemberTicket memberTicket = MemberTicket.of(member.getId(), ticketId, ticket.getFixedPrice(), requestSeatCount);

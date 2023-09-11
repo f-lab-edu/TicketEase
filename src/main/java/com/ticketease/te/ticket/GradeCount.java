@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.ticketease.te.ticket;
 
 import java.util.EnumMap;
@@ -19,3 +20,26 @@ public record GradeCount(Map<Grade, Integer> gradeCountMap) {
         return new GradeCount(result);
     }
 }
+=======
+package com.ticketease.te.ticket;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public record GradeCount(Map<Grade, Integer> gradeCountMap) {
+    public static GradeCount of(Map<Grade, Integer> values) {
+        return new GradeCount(values);
+    }
+    public static GradeCount from(List<Ticket> tickets){
+        Map<Grade, Integer> result = tickets.stream()
+                .collect(Collectors.groupingBy(
+                        Ticket::getGrade,
+                        ()-> new EnumMap<Grade, Integer>(Grade.class),
+                        Collectors.summingInt(ticket -> ticket.getSeat().getSeatCount())
+                ));
+        return new GradeCount(result);
+    }
+}
+>>>>>>> 4b8cbb66209fb14f4d97411d810a840771db0d63

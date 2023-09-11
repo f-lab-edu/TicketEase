@@ -19,14 +19,10 @@ public class LoginService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> findMember = memberRepository.findByNickName(username);
-        if (findMember.isEmpty()){
-            throw new UsernameNotFoundException("계정정보를 확인해주세요");
-        }
-
+        Member member = memberRepository.findByNickName(username).orElseThrow(() -> new UsernameNotFoundException("계정정보를 확인해주세요"));
         return User.builder()
-                .username(findMember.get().getNickName())
-                .password(findMember.get().getPassword())
+                .username(member.getNickName())
+                .password(member.getPassword())
                 .roles("USER")
                 .build();
     }

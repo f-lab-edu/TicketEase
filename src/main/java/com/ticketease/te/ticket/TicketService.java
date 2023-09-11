@@ -6,8 +6,6 @@ import com.ticketease.te.account.AccountRepository;
 import com.ticketease.te.account.AccountService;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberRepository;
-import com.ticketease.te.memberticket.MemberTicket;
-import com.ticketease.te.memberticket.MemberTicketRepository;
 import com.ticketease.te.memberticket.MemberTicketService;
 import com.ticketease.te.performance.Performance;
 import jakarta.transaction.Transactional;

@@ -1,4 +1,4 @@
-insert into performance (name,description, performance_start_date_time, performance_end_date_time_time)
+insert into performance (name,description, performance_start_date_time, performance_end_date_time)
 values("블랙핑크","블랙핑크가 공연을 한다","2023-08-24","2023-09-23"),
       ("싸이","싸이가 공연을 한다","2023-07-24","2023-08-23"),
       ("BTS","싸이가 공연을 한다","2023-07-24","2023-08-23"),

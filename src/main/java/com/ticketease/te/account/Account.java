@@ -4,10 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,17 +18,11 @@ public class Account {
     private Long amount;
     private Long memberId;
 
-    protected Account(){}
-    private Account(final Long amount){
+    private Account(final Long amount, final Long memberId){
         this.amount = amount;
+        this.memberId = memberId;
     }
-    public static Account of(final Long amount){
-        return new Account(amount);
-    }
-    public void calculate(Integer price){
-        if (this.amount < price){
-            throw new RuntimeException("잔액이 부족합니다.");
-        }
-        this.amount -= price;
+    public static Account of(final Long amount, final Long memberId){
+        return new Account(amount, memberId);
     }
 }

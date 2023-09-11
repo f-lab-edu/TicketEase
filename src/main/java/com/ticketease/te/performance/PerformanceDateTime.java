@@ -2,8 +2,10 @@ package com.ticketease.te.performance;
 
 import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
-import lombok.NoArgsConstructor;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+@Getter
 @Embeddable
 @NoArgsConstructor
 public class PerformanceDateTime {

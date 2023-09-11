@@ -1,6 +1,8 @@
 package com.ticketease.te.ticket;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -71,5 +73,27 @@ public class PurchaseTicketServiceTest {
         verify(mockSeat, times(1)).reserveSeat(requestSeatCount);
         verify(ticketRepository, times(1)).save(mockTicket);
         verify(memberTicketService, times(1)).registerTicketForMember(mockMember, mockTicket, requestSeatCount);
+    }
+
+    @Test
+    @DisplayName("티켓 예매 실패: 잔액 부족")
+    void purchaseTicket_notEnoughBalance_shouldThrowException() {
+        final String nickName = "ko";
+        final Long ticketId = 1L;
+        final Integer requestSeatCount = 10; // 잔액 부족하게 만들기 위한 좌석 요청 수
+
+        Member mockMember = mock(Member.class);
+        Ticket mockTicket = mock(Ticket.class);
+        Account mockAccount = mock(Account.class);
+        Seat mockSeat = mock(Seat.class);
+
+        when(memberRepository.findByNickName(nickName)).thenReturn(Optional.of(mockMember));
+        when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(mockTicket));
+        when(accountRepository.findById(anyLong())).thenReturn(Optional.of(mockAccount));
+        when(mockTicket.getSeat()).thenReturn(mockSeat);
+
+        doThrow(RuntimeException.class).when(accountService).deductAmount(mockAccount, mockTicket, requestSeatCount);
+
+        assertThrows(RuntimeException.class, () -> ticketService.purchaseTicket(nickName, ticketId, requestSeatCount));
     }
 }

@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
@@ -37,6 +38,7 @@ public class AccountServiceTest {
         Integer requestSeatCount = 1;
         accountService.deductAmount(mockAccount, mockTicket, requestSeatCount);
 
+        assertEquals(50_000L, mockAccount.getAmount().longValue());
         verify(accountRepository, times(1)).save(any(Account.class));
     }
 

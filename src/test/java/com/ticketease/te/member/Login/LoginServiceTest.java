@@ -26,11 +26,15 @@ class LoginServiceTest {
     @Mock
     private MemberRepository memberRepository;
 
+    private final String username = "helloWorld";
+    private final String password = "1234qwer";
+
+
     @DisplayName("유효한 요청")
     @Test
-    void givenLoginRequest_whenValid_LoginSuccess(){
+    void givenLoginRequest_whenValid_LoginSuccess() {
         //given
-        LoginRequest request = LoginRequest.of("helloWorld", "1234qwer");
+        LoginRequest request = LoginRequest.of(username, password);
 
         //when
         when(memberRepository.findByNickName(request.nickname())).thenReturn(Optional.of(Member.of(request.nickname(), request.password())));
@@ -42,9 +46,9 @@ class LoginServiceTest {
 
     @DisplayName("유효하지 않은 요청, 사용자 인증실패")
     @Test
-    void givenLoginRequest_whenInValid_LoginFail(){
+    void givenLoginRequest_whenInValid_LoginFail() {
         //given
-        LoginRequest request = LoginRequest.of("helloWorld", "1234qwer");
+        LoginRequest request = LoginRequest.of(username, password);
 
         //when
         when(memberRepository.findByNickName(request.nickname())).thenReturn(Optional.empty());

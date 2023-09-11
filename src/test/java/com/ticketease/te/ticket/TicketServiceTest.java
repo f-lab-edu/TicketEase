@@ -63,5 +63,4 @@ public class TicketServiceTest {
 
         assertEquals(expected, actual);
     }
-
 }

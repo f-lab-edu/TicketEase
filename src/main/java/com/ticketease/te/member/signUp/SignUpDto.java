@@ -4,6 +4,7 @@ import com.ticketease.te.member.Member;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 public record SignUpDto (
         String nickName,
         String password,

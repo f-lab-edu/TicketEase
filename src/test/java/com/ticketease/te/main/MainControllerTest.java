@@ -61,5 +61,4 @@ class MainControllerTest {
         verify(boardService, times(1)).findPerformance(eq(search),any(Pageable.class));
 
     }
-
 }

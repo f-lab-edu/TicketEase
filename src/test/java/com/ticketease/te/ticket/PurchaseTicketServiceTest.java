@@ -80,7 +80,7 @@ public class PurchaseTicketServiceTest {
     void purchaseTicket_notEnoughBalance_shouldThrowException() {
         final String nickName = "ko";
         final Long ticketId = 1L;
-        final Integer requestSeatCount = 10; // 잔액 부족하게 만들기 위한 좌석 요청 수
+        final Integer requestSeatCount = 10;
 
         Member mockMember = mock(Member.class);
         Ticket mockTicket = mock(Ticket.class);
@@ -93,6 +93,24 @@ public class PurchaseTicketServiceTest {
         when(mockTicket.getSeat()).thenReturn(mockSeat);
 
         doThrow(RuntimeException.class).when(accountService).deductAmount(mockAccount, mockTicket, requestSeatCount);
+
+        assertThrows(RuntimeException.class, () -> ticketService.purchaseTicket(nickName, ticketId, requestSeatCount));
+    }
+
+    @Test
+    @DisplayName("티켓 예매 실패: 좌석 부족")
+    void purchaseTicket_notEnoughSeats(){
+        final String nickName = "ko";
+        final Long ticketId = 1L;
+        final Integer requestSeatCount = 10;
+
+        Member mockMember = Member.of(nickName, "1234");
+        Seat availableSeat = Seat.of(5);
+        Ticket mockTicket = Ticket.of(availableSeat, 50_000, Grade.S);
+
+
+        when(memberRepository.findByNickName(nickName)).thenReturn(Optional.of(mockMember));
+        when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(mockTicket));
 
         assertThrows(RuntimeException.class, () -> ticketService.purchaseTicket(nickName, ticketId, requestSeatCount));
     }

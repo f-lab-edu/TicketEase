@@ -35,7 +35,6 @@ public class TicketService{
         account.calculate(ticket.getFixedPrice() * requestSeatCount);
         accountRepository.save(account);
 
-        // 좌석의 계수 줄여주기
         ticket.calculateSeat(requestSeatCount);
         ticketRepository.save(ticket);
 

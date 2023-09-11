@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-package com.ticketease.te.ticket;
-
-
-import com.ticketease.te.performance.Performance;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-@Service
-@RequiredArgsConstructor
-public class TicketService{
-    private final TicketRepository ticketRepository;
-
-    public GradeCount countTicketByGradeForPerformance(Performance performance) {
-        return GradeCount.from(ticketRepository.findAllById(performance.getTicketIds()));
-    }
-}
-=======
 package com.ticketease.te.ticket;
 
 
@@ -64,4 +46,3 @@ public class TicketService{
         memberTicketService.registerTicketForMember(member, ticket, requestSeatCount);
     }
 }
->>>>>>> 4b8cbb66209fb14f4d97411d810a840771db0d63

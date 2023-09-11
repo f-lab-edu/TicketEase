@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-package com.ticketease.te.ticket;
-
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class TicketController {
-}
-=======
 package com.ticketease.te.ticket;
 
 import lombok.RequiredArgsConstructor;
@@ -31,4 +22,3 @@ public class TicketController {
     }
 
 }
->>>>>>> 4b8cbb66209fb14f4d97411d810a840771db0d63

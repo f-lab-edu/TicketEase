@@ -1,5 +1,6 @@
 package com.ticketease.te.member.signUp;
 
+import com.ticketease.te.config.Security;
 import com.ticketease.te.exception.ExceptionCode;
 import com.ticketease.te.exception.SignUpExceptionHandler;
 import org.junit.jupiter.api.DisplayName;
@@ -7,16 +8,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("회원가입 컨트롤러")
 @WebMvcTest(SignUpController.class)
+@Import(Security.class)
 class SignUpControllerTest {
 
     @Autowired
@@ -47,7 +51,8 @@ class SignUpControllerTest {
         mvc.perform(post("/signup")
                         .param("nickname", request.nickname())
                         .param("password", request.password())
-                        .param("confirmPassword", request.confirmPassword()))
+                        .param("confirmPassword", request.confirmPassword())
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:signup"))
                 .andExpect(flash().attribute(ExceptionCode.INVALID_SIGNUP_REQUEST.toString(), ExceptionCode.INVALID_SIGNUP_REQUEST.getDescription()));
@@ -68,7 +73,8 @@ class SignUpControllerTest {
         mvc.perform(post("/signup")
                         .param("nickname", request.nickname())
                         .param("password", request.password())
-                        .param("confirmPassword", request.confirmPassword()))
+                        .param("confirmPassword", request.confirmPassword())
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:signup"))
                 .andExpect(flash().attribute(ExceptionCode.USER_ALREADY_EXIST.toString(), ExceptionCode.USER_ALREADY_EXIST.getDescription()));
@@ -87,7 +93,8 @@ class SignUpControllerTest {
         mvc.perform(post("/signup")
                         .param("nickname", request.nickname())
                         .param("password", request.password())
-                        .param("confirmPassword", request.confirmPassword()))
+                        .param("confirmPassword", request.confirmPassword())
+                        .with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:login"))
                 .andExpect(flash().attribute("success","회원가입이 완료됐습니다."));

@@ -1,6 +1,8 @@
 package com.ticketease.te.member.signUp;
 
 import com.ticketease.te.member.Member;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public record SignUpDto (
         String nickName,
@@ -11,7 +13,8 @@ public record SignUpDto (
         return new SignUpDto(nickName, password, confirmPassword);
     }
 
-    public static Member toEntity(SignUpDto dto){
-        return Member.of(dto.nickName, dto.password);
+    public static Member toEntity(String nickName, String password){
+        return Member.of(nickName, password);
     }
+
 }

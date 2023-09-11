@@ -12,5 +12,6 @@ public class AccountService {
     public void deductAmount(Account account, Ticket ticket, Integer requestSeatCount){
         Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
         account.deductAmount(totalPaymentAmount);
+        accountRepository.save(account);
     }
 }

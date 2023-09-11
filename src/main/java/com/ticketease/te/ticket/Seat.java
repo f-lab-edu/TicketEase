@@ -16,7 +16,7 @@ public class Seat {
     public static Seat of(final Integer seatCount){
         return new Seat(seatCount);
     }
-    public Seat calculateSeat(final Integer requestCount){
+    public Seat reserveSeat(final Integer requestCount){
         if (this.seatCount < requestCount){
             throw new RuntimeException("좌석이 부족합니다.");
         }

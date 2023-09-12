@@ -1,13 +1,6 @@
 package com.ticketease.te.ticket;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,19 +19,45 @@ public class Ticket {
 
     private Long performanceId;
     private Long memberTicketId;
-    public void setPerformance(Long performanceId){
+
+    public void setPerformance(Long performanceId) {
         this.performanceId = performanceId;
     }
 
-    public Grade getGrade(){
-        return seat.getGrade();
-    }
-    private Ticket(final Seat seat, final int fixedPrice) {
-        this.seat = seat;
+    private Ticket(final int fixedPrice, final Integer seatCount, final Grade grade) {
+        this.seat = new Seat(seatCount, grade);
         this.fixedPrice = fixedPrice;
     }
-    public static Ticket of(final Seat seat, final Integer fixedPrice){
-        return new Ticket(seat, fixedPrice);
+
+    public void reserve(int count) {
+        seat = seat.discountSeat(count);
+    }
+
+    public static Ticket of(final int fixedPrice, final Integer seatCount, final Grade grade) {
+        return new Ticket(fixedPrice, seatCount, grade);
+    }
+
+
+    @Getter
+    @Embeddable
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class Seat {
+
+        private Integer seatCount;
+
+        @Enumerated(value = EnumType.STRING)
+        private Grade grade;
+
+        private Seat(Integer seatCount, Grade grade) {
+            this.seatCount = seatCount;
+            this.grade = grade;
+        }
+
+        private Seat discountSeat(final Integer requestCount) {
+            if (this.seatCount < requestCount) {
+                throw new RuntimeException("좌석이 부족합니다.");
+            }
+            return new Seat(this.seatCount - requestCount, this.grade);
+        }
     }
 }
-

@@ -40,5 +40,7 @@ public class Ticket {
     public static Ticket of(final Seat seat, final Integer fixedPrice){
         return new Ticket(seat, fixedPrice);
     }
+
 }
+
 

@@ -45,4 +45,6 @@ public class TicketService{
 
         memberTicketService.registerTicketForMember(member, ticket, requestSeatCount);
     }
+
+
 }

@@ -12,8 +12,9 @@ public class MemberTicketService {
     private final MemberTicketRepository memberTicketRepository;
 
     public void registerTicketForMember(Member member, Ticket ticket, Integer requestSeatCount){
+        Boolean isCanceled = false;
         MemberTicket memberTicket = MemberTicket.of(member.getId(), ticket.getId(),
-                ticket.getFixedPrice(), requestSeatCount);
+                ticket.getFixedPrice(), requestSeatCount, isCanceled);
         memberTicketRepository.save(memberTicket);
     }
 

@@ -21,4 +21,18 @@ public class TicketController {
         }
     }
 
+    @PostMapping("/ticketReserveCancel")
+    public ResponseEntity<String> cancelTicketReservation(
+            @RequestParam String nickName,
+            @RequestParam Long ticketId,
+            @RequestParam Integer requestSeatCount,
+            @RequestParam Long memberTicketId) {
+
+        try {
+            ticketService.cancelTicket(nickName, ticketId, requestSeatCount, memberTicketId);
+            return ResponseEntity.ok("성공적으로 티켓 환불이 되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

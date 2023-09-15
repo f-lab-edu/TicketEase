@@ -34,4 +34,8 @@ public class MemberTicket {
                                   final Integer realPrice, final Integer seatCount, final Boolean isCanceled) {
         return new MemberTicket(memberId, ticketId, realPrice, seatCount, isCanceled);
     }
+
+    public void cancel(){
+        this.isCanceled = true;
+    }
 }

@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PerformanceService {
     private final PerformanceRepository performanceRepository;
-    private final TicketService ticketService;
+//    private final TicketService ticketService;
 
-    public GradeCount countTicketByGradeForPerformance(Long performanceId){
-        Performance performance = performanceRepository.findById(performanceId)
-                .orElseThrow(() -> new IllegalArgumentException("Performance not found with id: " + performanceId));
-        return ticketService.countTicketByGradeForPerformance(performance);
-    }
+//    public GradeCount countTicketByGradeForPerformance(Long performanceId){
+//        Performance performance = performanceRepository.findById(performanceId)
+//                .orElseThrow(() -> new IllegalArgumentException("Performance not found with id: " + performanceId));
+//        return ticketService.countTicketByGradeForPerformance(performance);
+//    }
 
     public Boolean isCanceled(Ticket ticket){
         Performance performance = performanceRepository.findById(ticket.getPerformanceId()).get();

@@ -11,7 +11,6 @@ import com.ticketease.te.memberticket.MemberTicketRepository;
 import com.ticketease.te.memberticket.MemberTicketService;
 import com.ticketease.te.performance.Performance;
 import com.ticketease.te.performance.PerformanceService;
-import com.ticketease.te.util.EntityFinderUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

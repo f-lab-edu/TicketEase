@@ -18,11 +18,12 @@ public class Account {
     private Long amount;
     private Long memberId;
 
-    private Account(final Long amount, final Long memberId){
+    private Account(final Long amount, final Long memberId) {
         this.amount = amount;
         this.memberId = memberId;
     }
-    public static Account of(final Long amount, final Long memberId){
+
+    public static Account of(final Long amount, final Long memberId) {
         return new Account(amount, memberId);
     }
 

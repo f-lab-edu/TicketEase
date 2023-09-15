@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.ticketease.te.config.Security;
 import com.ticketease.te.exception.ExceptionCode;
-import com.ticketease.te.exception.SignUpExceptionHandler;
+import com.ticketease.te.exception.ExceptionHandler;
 
 @DisplayName("회원가입 컨트롤러")
 @WebMvcTest(SignUpController.class)
@@ -66,7 +66,7 @@ class SignUpControllerTest {
 
 		//when
 		when(signUpService.signUpUser(any(SignUpDto.class)))
-			.thenThrow(new SignUpExceptionHandler(ExceptionCode.USER_ALREADY_EXIST,
+			.thenThrow(new ExceptionHandler(ExceptionCode.USER_ALREADY_EXIST,
 				ExceptionCode.USER_ALREADY_EXIST.getDescription()));
 
 		//then

@@ -26,7 +26,7 @@ public class MainController {
 	public String index(@RequestParam(required = false) String search,
 		@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 		ModelMap map) {
-		Page<BoardResponse> response = boardService.findPerformance(search, pageable).map(BoardResponse::from);
+		Page<BoardResponse> response = boardService.findPerformance(search, pageable).map(BoardResponse::of);
 		List<Integer> barNumbers = boardService.getPaginationBarNumbers(pageable.getPageNumber(),
 			response.getTotalPages());
 		map.addAttribute("board", response);

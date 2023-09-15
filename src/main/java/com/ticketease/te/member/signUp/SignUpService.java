@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ticketease.te.exception.ExceptionCode;
-import com.ticketease.te.exception.SignUpExceptionHandler;
+import com.ticketease.te.exception.ExceptionHandler;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberRepository;
 
@@ -28,7 +28,7 @@ public class SignUpService {
 				SignUpDto.toEntity(signUpDto.nickName(), passwordEncoder.encode(signUpDto.password())));
 			return 0L;
 		} else {
-			throw new SignUpExceptionHandler(ExceptionCode.USER_ALREADY_EXIST,
+			throw new ExceptionHandler(ExceptionCode.USER_ALREADY_EXIST,
 				ExceptionCode.USER_ALREADY_EXIST.getDescription());
 		}
 	}

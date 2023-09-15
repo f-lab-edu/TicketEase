@@ -22,7 +22,8 @@ public class Security {
 					"/signup",
 					"/login",
 					"/logout",
-					"/error**"
+					"/error**",
+					"/detail/**"
 				).permitAll()
 				.anyRequest().authenticated()
 			)

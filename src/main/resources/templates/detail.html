@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>TicketEase</title>
+
+</head>
+<body>
+
+<div th:replace="~{common/header}"></div>
+
+<main role="main" class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 blog-main">
+            <h3 th:text="${Board.name()}" class="pb-3 mb-4 font-italic border-bottom">
+                블랙핑크 콘서트
+            </h3>
+
+            <div th:text="${Board.description()}" class="blog-post border-bottom">
+                <p> 블랙핑크 콘서트 예매 중!</p>
+            </div><!-- /.blog-post -->
+
+        </div><!-- /.blog-main -->
+
+        <aside class="col-md-4 blog-sidebar">
+            <div class="p-3 mb-3 bg-light rounded">
+                <h4 class="font-italic">예매정보</h4>
+                <p class="mb-0">공연시작일</p>
+                <p class="mb-0" th:text="${Board.time().getPerformanceStartDateTime()}">yyyy-mm-dd</p>
+                <p class="mb-0">공연종료일</p>
+                <p class="mb-0" th:text="${Board.time().getPerformanceEndDateTime()}">yyyy-mm-dd</p>
+            </div>
+            <a class="btn btn-outline-info btn-block" target="_blank">예매하기
+                (좌석확인)</a>
+        </aside><!-- /.blog-sidebar -->
+
+    </div><!-- /.row -->
+</main><!-- /.container -->
+
+<div th:replace="~{common/footer}"></div>
+
+</body>
+</html>

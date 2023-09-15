@@ -3,11 +3,11 @@ package com.ticketease.te.exception;
 import lombok.Getter;
 
 @Getter
-public class SignUpExceptionHandler extends RuntimeException {
+public class ExceptionHandler extends RuntimeException {
 	ExceptionCode code;
 	String message;
 
-	public SignUpExceptionHandler(ExceptionCode code, String message) {
+	public ExceptionHandler(ExceptionCode code, String message) {
 		this.code = code;
 		this.message = message;
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ticketease.te.performance.PerformanceRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,6 +30,11 @@ public class BoardService {
 		int startNumber = Math.max(currentPageNumber - (BAR_LENGTH / 2), 0);
 		int endNumber = Math.min(startNumber + BAR_LENGTH, totalPages);
 		return IntStream.range(startNumber, endNumber).boxed().toList();
+	}
+
+	public BoardDto findSinglePerformanceById(Long id) {
+		return performanceRepository.findById(id).map(BoardDto::from)
+			.orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다."));
 	}
 
 }

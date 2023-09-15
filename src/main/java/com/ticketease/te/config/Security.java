@@ -12,35 +12,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class Security {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers(
-                                "/",
-                                "/signup",
-                                "/login",
-                                "/logout",
-                                "/error**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(formLogin -> formLogin
-                        .usernameParameter("nickname")
-                        .passwordParameter("password")
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/login"))
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .invalidateHttpSession(true)
-                        .logoutSuccessUrl("/"))
-                .build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http
+			.authorizeHttpRequests(auth -> auth
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+				.requestMatchers(
+					"/",
+					"/signup",
+					"/login",
+					"/logout",
+					"/error**"
+				).permitAll()
+				.anyRequest().authenticated()
+			)
+			.formLogin(formLogin -> formLogin
+				.usernameParameter("nickname")
+				.passwordParameter("password")
+				.loginPage("/login")
+				.defaultSuccessUrl("/")
+				.failureUrl("/login"))
+			.logout(logout -> logout
+				.logoutUrl("/logout")
+				.invalidateHttpSession(true)
+				.logoutSuccessUrl("/"))
+			.build();
+	}
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }

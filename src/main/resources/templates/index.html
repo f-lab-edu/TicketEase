@@ -33,8 +33,10 @@
     </table>
     <ul class="pagination">
         <div th:each="pageNumber : ${paginationBarNumbers}">
-            <input class="btn btn-primary disabled" type="button" th:value="${pageNumber + 1}" th:if="${pageNumber} == ${board.number}">
-            <a class="page-link" th:text="${pageNumber + 1}" th:if="${pageNumber} != ${board.number}" th:href="@{/(page=${pageNumber} ,search=${param.search})}">2</a>
+            <input class="btn btn-primary disabled" type="button" th:value="${pageNumber + 1}"
+                   th:if="${pageNumber} == ${board.number}">
+            <a class="page-link" th:text="${pageNumber + 1}" th:if="${pageNumber} != ${board.number}"
+               th:href="@{/(page=${pageNumber} ,search=${param.search})}">2</a>
         </div>
     </ul>
 </div>

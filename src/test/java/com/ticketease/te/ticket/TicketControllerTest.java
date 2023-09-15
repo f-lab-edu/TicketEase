@@ -1,8 +1,8 @@
 package com.ticketease.te.ticket;
 
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,37 +15,37 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 public class TicketControllerTest {
-    private MockMvc mockMvc;
+	private MockMvc mockMvc;
 
-    @InjectMocks
-    private TicketController ticketController;
+	@InjectMocks
+	private TicketController ticketController;
 
-    @Mock
-    private TicketService ticketService;
+	@Mock
+	private TicketService ticketService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(ticketController).build();
-    }
+	@BeforeEach
+	void setUp() {
+		MockitoAnnotations.openMocks(this);
+		mockMvc = MockMvcBuilders.standaloneSetup(ticketController).build();
+	}
 
-    @Test
-    @DisplayName("티켓 예약 성공")
-    void reserveTicket_success() throws Exception {
-        // Given
-        final String nickName = "testUser";
-        final Long ticketId = 1L;
-        final Integer requestSeatCount = 1;
+	@Test
+	@DisplayName("티켓 예약 성공")
+	void reserveTicket_success() throws Exception {
+		// Given
+		final String nickName = "testUser";
+		final Long ticketId = 1L;
+		final Integer requestSeatCount = 1;
 
-        doNothing().when(ticketService).purchaseTicket(nickName, ticketId, requestSeatCount);
+		doNothing().when(ticketService).purchaseTicket(nickName, ticketId, requestSeatCount);
 
-        // When & Then
-        mockMvc.perform(post("/api/tickets/ticketReserve")
-                        .param("nickName", nickName)
-                        .param("ticketId", ticketId.toString())
-                        .param("requestSeatCount", requestSeatCount.toString())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+		// When & Then
+		mockMvc.perform(post("/api/tickets/ticketReserve")
+				.param("nickName", nickName)
+				.param("ticketId", ticketId.toString())
+				.param("requestSeatCount", requestSeatCount.toString())
+				.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
 }
 

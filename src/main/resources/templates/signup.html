@@ -2,12 +2,12 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link href="/css/signup.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>TicketEase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/css/signup.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>TicketEase</title>
 
 </head>
 <body>
@@ -15,39 +15,45 @@
 <div th:replace="~{common/header}"></div>
 
 <div class="signup-form">
-  <form th:action="@{signup}" method="post">
-    <h2>회원 가입</h2>
-    <div th:if="${INVALID_SIGNUP_REQUEST}"  th:text="${INVALID_SIGNUP_REQUEST}" class="alert alert-danger" >"invalid"</div>
-    <div th:if="${USER_ALREADY_EXIST}"  th:text="${USER_ALREADY_EXIST}" class="alert alert-warning" >"alreadyExist"</div>
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-        <input type="text" class="form-control" name="nickname" id="usernameInput" placeholder="Username" required>
-      </div>
-      <p id="usernameLengthMessage" style="color: red; display: none;">ID는 5자 이상이어야 합니다.</p>
-    </div>
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-        <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Password" required>
-      </div>
-      <p id="passwordRequirements" style="color: red; display: none;">비밀번호는 8자 이상이며 숫자와 문자를 포함해야 합니다.</p>
-    </div>
-    <div class="form-group">
-      <div class="input-group">
+    <form th:action="@{signup}" method="post">
+        <h2>회원 가입</h2>
+        <div th:if="${INVALID_SIGNUP_REQUEST}" th:text="${INVALID_SIGNUP_REQUEST}" class="alert alert-danger">
+            "invalid"
+        </div>
+        <div th:if="${USER_ALREADY_EXIST}" th:text="${USER_ALREADY_EXIST}" class="alert alert-warning">"alreadyExist"
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="text" class="form-control" name="nickname" id="usernameInput" placeholder="Username"
+                       required>
+            </div>
+            <p id="usernameLengthMessage" style="color: red; display: none;">ID는 5자 이상이어야 합니다.</p>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" class="form-control" name="password" id="passwordInput" placeholder="Password"
+                       required>
+            </div>
+            <p id="passwordRequirements" style="color: red; display: none;">비밀번호는 8자 이상이며 숫자와 문자를 포함해야 합니다.</p>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
         <span class="input-group-addon">
           <i class="fa fa-lock"></i>
           <i class="fa fa-check"></i>
         </span>
-        <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordInput" placeholder="Confirm Password" required>
-      </div>
-      <p id="passwordMismatch" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</p>
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block btn-lg" id="registerButton" disabled>제출하기</button>
-    </div>
-    <p class="small text-center">제출하기를 클릭하면 <br>본사의 <a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의하게 됩니다.</p>
-  </form>
+                <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordInput"
+                       placeholder="Confirm Password" required>
+            </div>
+            <p id="passwordMismatch" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</p>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="registerButton" disabled>제출하기</button>
+        </div>
+        <p class="small text-center">제출하기를 클릭하면 <br>본사의 <a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a>에 동의하게 됩니다.</p>
+    </form>
 </div>
 
 <div th:replace="~{common/footer}"></div>

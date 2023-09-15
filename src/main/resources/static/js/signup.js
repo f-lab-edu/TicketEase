@@ -6,7 +6,7 @@ const confirmPasswordInput = document.getElementById('confirmPasswordInput');
 const passwordMismatchMessage = document.getElementById('passwordMismatch');
 const registerButton = document.getElementById('registerButton');
 
-usernameInput.addEventListener('input', function() {
+usernameInput.addEventListener('input', function () {
     if (usernameInput.value.length >= 5) {
         usernameLengthMessage.style.display = 'none'; // Hide the message
         usernameInput.classList.remove('is-invalid'); // Remove any invalid style
@@ -17,7 +17,7 @@ usernameInput.addEventListener('input', function() {
     updateRegisterButtonState();
 });
 
-passwordInput.addEventListener('input', function() {
+passwordInput.addEventListener('input', function () {
     if (passwordInput.value.length >= 8 && /\d/.test(passwordInput.value) && /[a-zA-Z]/.test(passwordInput.value)) {
         passwordRequirements.style.display = 'none'; // Hide the message
         passwordInput.classList.remove('is-invalid'); // Remove any invalid style
@@ -29,7 +29,7 @@ passwordInput.addEventListener('input', function() {
     updateRegisterButtonState();
 });
 
-confirmPasswordInput.addEventListener('input', function() {
+confirmPasswordInput.addEventListener('input', function () {
     validatePasswords(); // Check password match after each input
     updateRegisterButtonState();
 });

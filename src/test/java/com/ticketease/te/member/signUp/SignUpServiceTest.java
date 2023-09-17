@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.ticketease.te.exception.SignUpExceptionHandler;
+import com.ticketease.te.exception.ExceptionHandler;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberRepository;
 
@@ -54,7 +54,7 @@ class SignUpServiceTest {
 			Optional.of(Member.of(signUpDto.nickName(), signUpDto.password())));
 
 		//then
-		assertThrows(SignUpExceptionHandler.class, () -> signUpService.signUpUser(signUpDto));
+		assertThrows(ExceptionHandler.class, () -> signUpService.signUpUser(signUpDto));
 	}
 
 }

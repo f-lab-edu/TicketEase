@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ticketease.te.exception.ExceptionCode;
-import com.ticketease.te.exception.SignUpExceptionHandler;
+import com.ticketease.te.exception.ExceptionHandler;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class SignUpController {
 		try {
 			signUpUserValidation(SignUpRequest.toDto(request), bindingResult);
 			signUpService.signUpUser(SignUpRequest.toDto(request));
-		} catch (SignUpExceptionHandler handler) {
+		} catch (ExceptionHandler handler) {
 			redirectAttributes.addFlashAttribute(handler.getCode().toString(), handler.getMessage());
 			return "redirect:signup";
 		}
@@ -41,7 +41,7 @@ public class SignUpController {
 
 	private void signUpUserValidation(SignUpDto dto, BindingResult result) {
 		if (result.hasErrors() || !dto.password().equals(dto.confirmPassword())) {
-			throw new SignUpExceptionHandler(ExceptionCode.INVALID_SIGNUP_REQUEST,
+			throw new ExceptionHandler(ExceptionCode.INVALID_SIGNUP_REQUEST,
 				ExceptionCode.INVALID_SIGNUP_REQUEST.getDescription());
 		}
 	}

@@ -5,6 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,9 +20,9 @@ public class BoardController {
 		ModelMap map
 	) {
 		try {
-			BoardResponse dto = BoardResponse.from(boardService.findSinglePerformanceById(id));
-			map.addAttribute("Board", dto);
-		} catch (Exception ex) {
+			BoardResponse response = BoardResponse.from(boardService.findSinglePerformanceById(id));
+			map.addAttribute("Board", response);
+		} catch (EntityNotFoundException ex) {
 			return "error";
 		}
 		return "detail";

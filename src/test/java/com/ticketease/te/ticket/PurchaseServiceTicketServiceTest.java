@@ -20,7 +20,7 @@ import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberRepository;
 import com.ticketease.te.memberticket.MemberTicketService;
 
-public class PurchaseTicketServiceTest {
+public class PurchaseServiceTicketServiceTest {
 
 	@InjectMocks
 	private TicketService ticketService;

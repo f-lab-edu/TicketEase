@@ -35,4 +35,10 @@ public class TicketService {
 		seat.reserveSeat(requestSeatCount);
 		saveTicket(ticketId);
 	}
+
+	public Integer calculateTicketPrice(Long ticketId, Integer requestSeatCount) {
+		Ticket ticket = findTicketById(ticketId);
+		Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
+		return totalPaymentAmount;
+	}
 }

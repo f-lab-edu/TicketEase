@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberService;
-import com.ticketease.te.ticket.Ticket;
 import com.ticketease.te.ticket.TicketService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,11 +17,9 @@ public class AccountService {
 
 	public void deductAmount(String nickName, Long ticketId, Integer requestSeatCount) {
 		Long accountId = findAccountIdByNickName(nickName);
-
 		Account account = findAccountById(accountId);
-		Ticket ticket = ticketService.findTicketById(ticketId);
 
-		Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
+		Integer totalPaymentAmount = ticketService.calculateTicketPrice(ticketId, requestSeatCount);
 
 		account.deductAmount(totalPaymentAmount);
 		saveAccount(account);

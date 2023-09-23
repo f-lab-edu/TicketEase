@@ -15,6 +15,17 @@ public class TicketService {
 		return GradeCount.from(ticketRepository.findAllById(performance.getTicketIds()));
 	}
 
+	public void reserveSeat(Long ticketId, Integer requestSeatCount) {
+		Seat seat = getSeat(ticketId);
+		seat.reserveSeat(requestSeatCount);
+		saveTicket(ticketId);
+	}
+
+	public Integer calculateTicketPrice(Long ticketId, Integer requestSeatCount) {
+		Ticket ticket = findTicketById(ticketId);
+		return ticket.getFixedPrice() * requestSeatCount;
+	}
+
 	public Ticket findTicketById(Long ticketId) {
 		return ticketRepository.findById(ticketId)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
@@ -28,17 +39,5 @@ public class TicketService {
 	public Seat getSeat(Long ticketId) {
 		Ticket ticket = findTicketById(ticketId);
 		return ticket.getSeat();
-	}
-
-	public void reserveSeat(Long ticketId, Integer requestSeatCount) {
-		Seat seat = getSeat(ticketId);
-		seat.reserveSeat(requestSeatCount);
-		saveTicket(ticketId);
-	}
-
-	public Integer calculateTicketPrice(Long ticketId, Integer requestSeatCount) {
-		Ticket ticket = findTicketById(ticketId);
-		Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
-		return totalPaymentAmount;
 	}
 }

@@ -25,14 +25,14 @@ public class AccountService {
 		saveAccount(account);
 	}
 
-	public Account findAccountById(Long accountId) {
-		return accountRepository.findById(accountId)
-			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
-	}
-
 	public Long findAccountIdByNickName(String nickName) {
 		Member member = memberService.findMemberByNickName(nickName);
 		return member.getAccountId();
+	}
+
+	public Account findAccountById(Long accountId) {
+		return accountRepository.findById(accountId)
+			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
 	}
 
 	public void saveAccount(Account account) {

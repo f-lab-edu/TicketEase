@@ -16,4 +16,9 @@ public class AccountService {
 		account.deductAmount(totalPaymentAmount);
 		accountRepository.save(account);
 	}
+
+	public Account findAccountById(Long accountId) {
+		return accountRepository.findById(accountId)
+			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
+	}
 }

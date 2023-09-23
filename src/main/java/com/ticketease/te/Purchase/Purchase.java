@@ -3,9 +3,12 @@ package com.ticketease.te.Purchase;
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.account.Account;
+import com.ticketease.te.account.AccountService;
 import com.ticketease.te.member.Member;
+import com.ticketease.te.member.MemberService;
 import com.ticketease.te.ticket.Seat;
 import com.ticketease.te.ticket.Ticket;
+import com.ticketease.te.ticket.TicketService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +16,23 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class Purchase {
-	MemberSer
+
+	private final MemberService memberService;
+	private final TicketService ticketService;
+	private final AccountService accountService;
 
 	@Transactional
 	public void purchaseTicket(final String nickName, final Long ticketId, final Integer requestSeatCount) {
 
-		Member member = memberRepository.findByNickName(nickName)
-			.orElseThrow(() -> new RuntimeException("존재하지 않는 이름입니다 닉네임 : " + nickName));
-		Ticket ticket = ticketRepository.findById(ticketId)
-			.orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
-		Account account = accountRepository.findById(member.getAccountId())
-			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
+		Member member = memberService.findMemberByNickName(nickName);
+		Ticket ticket = ticketService.findTicketById(ticketId);
+		Account account = accountService.findAccountById(member.getAccountId());
 		Seat seat = ticket.getSeat();
 
 		accountService.deductAmount(account, ticket, requestSeatCount);
 
 		seat.reserveSeat(requestSeatCount);
-		ticketRepository.save(ticket);
+		ticketService.saveTicket(ticket);
 
 		memberTicketService.registerTicketForMember(member, ticket, requestSeatCount);
 	}

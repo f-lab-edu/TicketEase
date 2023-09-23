@@ -24,8 +24,11 @@ public class TicketService {
 	}
 
 	public Ticket findTicketById(Long ticketId) {
-		Ticket ticket = ticketRepository.findById(ticketId)
+		return ticketRepository.findById(ticketId)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
-		return ticket;
+	}
+
+	public void saveTicket(Ticket ticket) {
+		ticketRepository.save(ticket);
 	}
 }

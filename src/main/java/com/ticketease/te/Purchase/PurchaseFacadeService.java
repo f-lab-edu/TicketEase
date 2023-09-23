@@ -17,7 +17,8 @@ public class PurchaseFacadeService {
 	private final MemberTicketService memberTicketService;
 
 	@Transactional
-	public void purchaseTicket(final String nickName, final Long ticketId, final Integer requestSeatCount) {
+	public synchronized void purchaseTicket(final String nickName, final Long ticketId,
+		final Integer requestSeatCount) {
 		accountService.deductAmount(nickName, ticketId, requestSeatCount);
 		ticketService.reserveSeat(ticketId, requestSeatCount);
 		memberTicketService.registerTicketForMember(nickName, ticketId, requestSeatCount);

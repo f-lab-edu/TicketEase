@@ -29,4 +29,10 @@ public class TicketService {
 		Ticket ticket = findTicketById(ticketId);
 		return ticket.getSeat();
 	}
+
+	public void reserveSeat(Long ticketId, Integer requestSeatCount) {
+		Seat seat = getSeat(ticketId);
+		seat.reserveSeat(requestSeatCount);
+		saveTicket(ticketId);
+	}
 }

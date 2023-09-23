@@ -2,6 +2,8 @@ package com.ticketease.te.account;
 
 import org.springframework.stereotype.Service;
 
+import com.ticketease.te.member.Member;
+import com.ticketease.te.member.MemberService;
 import com.ticketease.te.ticket.Ticket;
 import com.ticketease.te.ticket.TicketService;
 
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountService {
 	private final TicketService ticketService;
 	private final AccountRepository accountRepository;
+	private final MemberService memberService;
 
 	public void deductAmount(Long accountId, Long ticketId, Integer requestSeatCount) {
 		Account account = findAccountById(accountId);
@@ -24,5 +27,10 @@ public class AccountService {
 	public Account findAccountById(Long accountId) {
 		return accountRepository.findById(accountId)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
+	}
+
+	public Long findAccountIdByNickName(String nickName) {
+		Member member = memberService.findMemberByNickName(nickName);
+		return member.getAccountId();
 	}
 }

@@ -13,15 +13,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AccountService {
 	private final TicketService ticketService;
-	private final AccountRepository accountRepository;
 	private final MemberService memberService;
+	private final AccountRepository accountRepository;
 
-	public void deductAmount(Long accountId, Long ticketId, Integer requestSeatCount) {
+	public void deductAmount(String nickName, Long ticketId, Integer requestSeatCount) {
+		Long accountId = findAccountIdByNickName(nickName);
+
 		Account account = findAccountById(accountId);
 		Ticket ticket = ticketService.findTicketById(ticketId);
+
 		Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
+
 		account.deductAmount(totalPaymentAmount);
-		accountRepository.save(account);
+		saveAccount(account);
 	}
 
 	public Account findAccountById(Long accountId) {
@@ -32,5 +36,9 @@ public class AccountService {
 	public Long findAccountIdByNickName(String nickName) {
 		Member member = memberService.findMemberByNickName(nickName);
 		return member.getAccountId();
+	}
+
+	public void saveAccount(Account account) {
+		accountRepository.save(account);
 	}
 }

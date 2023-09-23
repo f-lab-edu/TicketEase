@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PurchaseService {
+public class PurchaseFacadeService {
 	private final TicketService ticketService;
 	private final AccountService accountService;
 	private final MemberTicketService memberTicketService;

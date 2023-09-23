@@ -19,8 +19,13 @@ public class MemberTicketService {
 	public void registerTicketForMember(String nickName, Long ticketId, Integer requestSeatCount) {
 		Member member = memberService.findMemberByNickName(nickName);
 		Ticket ticket = ticketService.findTicketById(ticketId);
-		MemberTicket memberTicket = MemberTicket.of(member.getId(), ticket.getId(),
+		memberTicketSave(member.getId(), ticket.getId(),
 			ticket.getFixedPrice(), requestSeatCount);
+	}
+
+	public void memberTicketSave(Long memberId, Long ticketId, Integer ticketPrice, Integer requestSeatCount) {
+		MemberTicket memberTicket = MemberTicket.of(memberId, ticketId,
+			ticketPrice, requestSeatCount);
 		memberTicketRepository.save(memberTicket);
 	}
 }

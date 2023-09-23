@@ -20,7 +20,13 @@ public class TicketService {
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
 	}
 
-	public void saveTicket(Ticket ticket) {
+	public void saveTicket(Long ticketId) {
+		Ticket ticket = findTicketById(ticketId);
 		ticketRepository.save(ticket);
+	}
+
+	public Seat getSeat(Long ticketId) {
+		Ticket ticket = findTicketById(ticketId);
+		return ticket.getSeat();
 	}
 }

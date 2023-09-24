@@ -23,10 +23,10 @@ public class Security {
 					"/login",
 					"/logout",
 					"/error**",
-					"/detail/**"
+					"/detail/**",
+					"/api/purchase-ticket"
 				).permitAll()
-				.anyRequest().authenticated()
-			)
+				.anyRequest().authenticated())
 			.formLogin(formLogin -> formLogin
 				.usernameParameter("nickname")
 				.passwordParameter("password")

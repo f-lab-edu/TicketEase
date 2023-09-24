@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.ticket.Ticket;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,5 +17,12 @@ public class MemberTicketService {
 		MemberTicket memberTicket = MemberTicket.of(member.getId(), ticket.getId(),
 			ticket.getFixedPrice(), requestSeatCount);
 		memberTicketRepository.save(memberTicket);
+	}
+
+	@Transactional
+	public MemberTicket registerTicketForMember(Long memberId, Long ticketId, Integer fixedPrice,
+		Integer requestSeatCount) {
+		MemberTicket memberTicket = MemberTicket.of(memberId, ticketId, fixedPrice, requestSeatCount);
+		return memberTicketRepository.save(memberTicket);
 	}
 }

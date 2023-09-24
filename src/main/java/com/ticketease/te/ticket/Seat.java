@@ -1,5 +1,8 @@
 package com.ticketease.te.ticket;
 
+import com.ticketease.te.exception.ExceptionCode;
+import com.ticketease.te.exception.ExceptionHandler;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,5 +37,13 @@ public class Seat {
 		}
 		Integer seatCount = this.seatCount - requestCount;
 		this.seatCount = seatCount;
+	}
+
+	public void reserveSeats(final Integer requestCount) {
+		if (this.seatCount < requestCount) {
+			throw new ExceptionHandler(ExceptionCode.LACK_OF_TICKET_SEAT,
+				ExceptionCode.LACK_OF_TICKET_SEAT.getDescription());
+		}
+		this.seatCount = this.seatCount - requestCount;
 	}
 }

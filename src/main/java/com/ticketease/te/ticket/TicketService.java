@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.ticketease.te.account.Account;
 import com.ticketease.te.account.AccountRepository;
 import com.ticketease.te.account.AccountService;
+import com.ticketease.te.exception.ExceptionCode;
+import com.ticketease.te.exception.ExceptionHandler;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.member.MemberRepository;
 import com.ticketease.te.memberticket.MemberTicketService;
@@ -43,5 +45,13 @@ public class TicketService {
 		ticketRepository.save(ticket);
 
 		memberTicketService.registerTicketForMember(member, ticket, requestSeatCount);
+	}
+
+	public Ticket ReserveSeat(Long ticketId, Integer count) {
+		Ticket ticket = ticketRepository.findById(ticketId)
+			.orElseThrow(() -> new ExceptionHandler(ExceptionCode.TICKET_NOT_FOUND,
+				ExceptionCode.TICKET_NOT_FOUND.getDescription()));
+		ticket.getSeat().reserveSeats(count);
+		return ticket;
 	}
 }

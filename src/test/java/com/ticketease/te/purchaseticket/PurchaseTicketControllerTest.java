@@ -1,4 +1,4 @@
-package com.ticketease.te.orchestration;
+package com.ticketease.te.purchaseticket;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -18,15 +18,15 @@ import com.ticketease.te.config.Security;
 import com.ticketease.te.exception.ExceptionCode;
 import com.ticketease.te.exception.ExceptionHandler;
 
-@WebMvcTest(OrchestrationController.class)
+@WebMvcTest(PurchaseTicketController.class)
 @Import(Security.class)
-class OrchestrationControllerTest {
+class PurchaseTicketControllerTest {
 
 	@Autowired
 	MockMvc mvc;
 
 	@MockBean
-	private OrchestrationService orchestrationService;
+	private PurchaseTicketService orchestrationService;
 
 	private final String nickname = "hello";
 	private final Long ticketId = 1L;

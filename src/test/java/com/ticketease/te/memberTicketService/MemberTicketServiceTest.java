@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.ticketease.te.account.Account;
 import com.ticketease.te.member.Member;
 import com.ticketease.te.memberticket.MemberTicket;
 import com.ticketease.te.memberticket.MemberTicketRepository;
@@ -34,13 +35,13 @@ public class MemberTicketServiceTest {
 	@DisplayName("멤버에게 티켓 등록 성공")
 	void registerTicketForMember_success() {
 		Member mockMember = Member.of("ko", "1234");
-		mockMember.addAccount(1L);
+		mockMember.setAccount(mock(Account.class));
 		Ticket mockTicket = Ticket.of(Seat.of(100, Grade.S), 50_000);
 		Integer requestSeatCount = 1;
 
-		memberTicketService.registerTicketForMember(mockMember, mockTicket, requestSeatCount);
+		memberTicketService.registerTicketForMember(mockMember.getId(), mockTicket.getId(), mockTicket.getFixedPrice(),
+			requestSeatCount);
 
 		verify(memberTicketRepository, times(1)).save(any(MemberTicket.class));
 	}
 }
-

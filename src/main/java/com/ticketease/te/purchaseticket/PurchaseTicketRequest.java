@@ -1,4 +1,4 @@
-package com.ticketease.te.orchestration;
+package com.ticketease.te.purchaseticket;
 
 public record PurchaseTicketRequest(
 	String nickname,

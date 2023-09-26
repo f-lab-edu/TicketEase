@@ -1,4 +1,4 @@
-package com.ticketease.te.orchestration;
+package com.ticketease.te.purchaseticket;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -20,10 +20,10 @@ import com.ticketease.te.ticket.Ticket;
 import com.ticketease.te.ticket.TicketService;
 
 @ExtendWith(MockitoExtension.class)
-class OrchestrationServiceTest {
+class PurchaseTicketServiceTest {
 
 	@InjectMocks
-	private OrchestrationService orchestrationService;
+	private PurchaseTicketService orchestrationService;
 
 	@Mock
 	private TicketService ticketService;

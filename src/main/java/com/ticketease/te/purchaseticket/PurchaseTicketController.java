@@ -1,4 +1,4 @@
-package com.ticketease.te.orchestration;
+package com.ticketease.te.purchaseticket;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class OrchestrationController {
+public class PurchaseTicketController {
 
-	private final OrchestrationService orchestrationService;
+	private final PurchaseTicketService orchestrationService;
 
 	@PostMapping("/api/purchase-ticket")
-	public ResponseEntity<PurchaseTicketResponse> purchaseTicket(PurchaseTicketRequest request){
+	public ResponseEntity<PurchaseTicketResponse> purchaseTicket(PurchaseTicketRequest request) {
 		orchestrationService.PurchaseTicket(request.nickname(), request.ticketId(), request.requestSeatCount());
 		return ResponseEntity.status(HttpStatus.OK).body(new PurchaseTicketResponse("구매에 성공했습니다."));
 	}

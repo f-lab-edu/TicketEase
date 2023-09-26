@@ -1,4 +1,4 @@
-package com.ticketease.te.orchestration;
+package com.ticketease.te.purchaseticket;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class OrchestrationService {
+public class PurchaseTicketService {
 
 	private final TicketService ticketService;
 	private final AccountService accountService;

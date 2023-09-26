@@ -34,8 +34,6 @@ public class Member {
 	@OneToOne(mappedBy = "member")
 	private Account account;
 
-	private Long accountId;
-
 	protected Member() {
 	}
 
@@ -48,7 +46,7 @@ public class Member {
 		return new Member(nickName, password);
 	}
 
-	public void addAccount(Long accountId) {
-		this.accountId = accountId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 }

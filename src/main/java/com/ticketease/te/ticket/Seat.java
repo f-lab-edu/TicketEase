@@ -31,14 +31,6 @@ public class Seat {
 		return new Seat(seatCount, grade);
 	}
 
-	public void reserveSeat(final Integer requestCount) {
-		if (this.seatCount < requestCount) {
-			throw new RuntimeException("좌석이 부족합니다.");
-		}
-		Integer seatCount = this.seatCount - requestCount;
-		this.seatCount = seatCount;
-	}
-
 	public void reserveSeats(final Integer requestCount) {
 		if (this.seatCount < requestCount) {
 			throw new ExceptionHandler(ExceptionCode.LACK_OF_TICKET_SEAT,

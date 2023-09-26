@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberDataAccessService {
 	private final MemberRepository memberRepository;
 
 	public Member findMemberByNickName(String nickName) {

@@ -25,7 +25,7 @@ public class TicketServiceTest {
 	TicketRepository ticketRepository;
 
 	@InjectMocks
-	TicketService ticketService;
+	TicketDataAccessService ticketDataAccessService;
 
 	@BeforeEach
 	public void setUp() {
@@ -60,7 +60,7 @@ public class TicketServiceTest {
 		map.put(Grade.S, 1000);
 
 		GradeCount expected = GradeCount.of(map);
-		GradeCount actual = ticketService.countTicketByGradeForPerformance(performance);
+		GradeCount actual = ticketDataAccessService.countTicketByGradeForPerformance(performance);
 
 		assertEquals(expected, actual);
 	}

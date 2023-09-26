@@ -3,29 +3,23 @@ package com.ticketease.te.memberticket;
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.member.Member;
-import com.ticketease.te.member.MemberService;
+import com.ticketease.te.member.MemberDataAccessService;
 import com.ticketease.te.ticket.Ticket;
-import com.ticketease.te.ticket.TicketService;
+import com.ticketease.te.ticket.TicketDataAccessService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class MemberTicketService {
-	private final MemberService memberService;
-	private final TicketService ticketService;
-	private final MemberTicketRepository memberTicketRepository;
+	private final MemberTicketDataAccessService memberTicketDataAccessService;
+	private final MemberDataAccessService memberDataAccessService;
+	private final TicketDataAccessService ticketDataAccessService;
 
 	public void registerTicketForMember(String nickName, Long ticketId, Integer requestSeatCount) {
-		Member member = memberService.findMemberByNickName(nickName);
-		Ticket ticket = ticketService.findTicketById(ticketId);
-		saveMemberTicket(member.getId(), ticket.getId(),
+		Member member = memberDataAccessService.findMemberByNickName(nickName);
+		Ticket ticket = ticketDataAccessService.findTicketById(ticketId);
+		memberTicketDataAccessService.assignSeatsToMember(member.getId(), ticket.getId(),
 			ticket.getFixedPrice(), requestSeatCount);
-	}
-
-	public void saveMemberTicket(Long memberId, Long ticketId, Integer ticketPrice, Integer requestSeatCount) {
-		MemberTicket memberTicket = MemberTicket.of(memberId, ticketId,
-			ticketPrice, requestSeatCount);
-		memberTicketRepository.save(memberTicket);
 	}
 }

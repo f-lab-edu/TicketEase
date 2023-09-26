@@ -10,12 +10,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.ticketease.te.member.Member;
-import com.ticketease.te.memberticket.MemberTicket;
-import com.ticketease.te.memberticket.MemberTicketRepository;
+import com.ticketease.te.member.MemberDataAccessService;
+import com.ticketease.te.memberticket.MemberTicketDataAccessService;
 import com.ticketease.te.memberticket.MemberTicketService;
 import com.ticketease.te.ticket.Grade;
 import com.ticketease.te.ticket.Seat;
 import com.ticketease.te.ticket.Ticket;
+import com.ticketease.te.ticket.TicketDataAccessService;
 
 public class MemberTicketServiceTest {
 
@@ -23,7 +24,13 @@ public class MemberTicketServiceTest {
 	private MemberTicketService memberTicketService;
 
 	@Mock
-	private MemberTicketRepository memberTicketRepository;
+	private MemberTicketDataAccessService memberTicketDataAccessService;
+
+	@Mock
+	private MemberDataAccessService memberDataAccessService;
+
+	@Mock
+	private TicketDataAccessService ticketDataAccessService;
 
 	@BeforeEach
 	void setUp() {
@@ -33,14 +40,20 @@ public class MemberTicketServiceTest {
 	@Test
 	@DisplayName("멤버에게 티켓 등록 성공")
 	void registerTicketForMember_success() {
-		Member mockMember = Member.of("ko", "1234");
-		mockMember.addAccount(1L);
-		Ticket mockTicket = Ticket.of(Seat.of(100, Grade.S), 50_000);
-		Integer requestSeatCount = 1;
+		String nickName = "testUser";
+		Long ticketId = 1L;
+		Integer requestSeatCount = 2;
+		Member mockMember = Member.of(nickName, "password");
+		Ticket mockTicket = Ticket.of(Seat.of(100, Grade.S), 5000);
 
-		memberTicketService.registerTicketForMember(mockMember, mockTicket, requestSeatCount);
+		when(memberDataAccessService.findMemberByNickName(nickName)).thenReturn(mockMember);
 
-		verify(memberTicketRepository, times(1)).save(any(MemberTicket.class));
+		when(ticketDataAccessService.findTicketById(ticketId)).thenReturn(mockTicket);
+
+		memberTicketService.registerTicketForMember(nickName, ticketId, requestSeatCount);
+
+		verify(memberTicketDataAccessService, times(1)).assignSeatsToMember(
+			mockMember.getId(), mockTicket.getId(), mockTicket.getFixedPrice(), requestSeatCount);
 	}
 }
 

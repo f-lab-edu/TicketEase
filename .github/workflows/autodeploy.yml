@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -41,12 +41,12 @@ jobs:
           spring.datasource.username: ${{ env.DB_ID }}
           spring.datasource.password: ${{ env.DB_PW }}
 
-      - name: Build And MakeJar with Gradle(Without Test)
+      - name: Build with Gradle(Without Test)
         run: |
           chmod +x gradlew
-          ./gradlew clean build -x test
+          ./gradlew build -x test
 
-      - name: copy file via ssh password
+      - name: Deploy over SSH(1/2) Copy files to Remote Server
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ env.HOST }}
@@ -56,12 +56,13 @@ jobs:
           source: "./build/libs/ticketease-prod.jar"
           target: ${{ env.SOURCE_PATH }}
 
-#      - name: Deploy over SSH
-#        uses: appleboy/ssh-action@master
-#        id: deploy
-#        with:
-#          host: ${{ env.HOST }}
-#          port: ${{ env.PORT }}
-#          username: ${{ env.USERNAME }}
-#          password: ${{ env.PASSWORD }}
-#        script: |
+      - name: Deploy over SSH(2/2) Run SpringBoot on Remote Server
+        uses: appleboy/ssh-action@master
+        id: deploy
+        with:
+          host: ${{ env.HOST }}
+          port: ${{ env.PORT }}
+          username: ${{ env.USERNAME }}
+          password: ${{ env.PASSWORD }}
+        script: |
+          java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar

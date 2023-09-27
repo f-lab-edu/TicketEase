@@ -13,14 +13,14 @@ jobs:
       repository-projects: write
 
     env:
-      dbUrl: ${{ secrets.NAVER_CLOUD_MYSQL_URL }}
-      dbId: ${{ secrets.NAVER_CLOUD_MYSQL_ID }}
-      dbPw: ${{ secrets.NAVER_CLOUD_MYSQL_PW }}
+      DB_URL: ${{ secrets.NAVER_CLOUD_MYSQL_URL }}
+      DB_ID: ${{ secrets.NAVER_CLOUD_MYSQL_ID }}
+      DB_PW: ${{ secrets.NAVER_CLOUD_MYSQL_PW }}
       HOST: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_IP }}
       PORT: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_PORT }}
       USERNAME: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_USERNAME }}
       PASSWORD: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_PASSWORD }}
-      PATH: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_SOURCE_PATH }}
+      SOURCE_PATH: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_SOURCE_PATH }}
 
     steps:
       - name: Checkout repository
@@ -37,9 +37,9 @@ jobs:
         with:
           files: ./src/main/resources/application-prod.yml
         env:
-          spring.datasource.url: ${{ env.dbUrl }}
-          spring.datasource.username: ${{ env.dbId }}
-          spring.datasource.password: ${{ env.dbPw }}
+          spring.datasource.url: ${{ env.DB_URL }}
+          spring.datasource.username: ${{ env.DB_ID }}
+          spring.datasource.password: ${{ env.DB_PW }}
 
       - name: Build And MakeJar with Gradle(Without Test)
         run: |
@@ -54,7 +54,7 @@ jobs:
           username: ${{ env.USERNAME }}
           password: ${{ env.PASSWORD }}
           source: "./build/libs/ticketease-prod.jar"
-          target: ${{ env.PATH }}
+          target: ${{ env.SOURCE_PATH }}
 
 #      - name: Deploy over SSH
 #        uses: appleboy/ssh-action@master

@@ -65,4 +65,5 @@ jobs:
           username: ${{ env.USERNAME }}
           password: ${{ env.PASSWORD }}
           script: |
+            kill -9 $(ps -ef | grep ticketease-prod.jar | awk '{print $2}' | head -n 1)
             java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar

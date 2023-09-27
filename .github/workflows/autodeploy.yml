@@ -46,7 +46,7 @@ jobs:
           chmod +x gradlew
           ./gradlew build -x test
 
-      - name: Deploy over SSH(1/2) Copy files to Remote Server
+      - name: Deploy over SSH(1/2) Copy jar to Remote Server
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ env.HOST }}
@@ -66,4 +66,5 @@ jobs:
           password: ${{ env.PASSWORD }}
           script: |
             kill -9 $(ps -ef | grep ticketease-prod.jar | awk '{print $2}' | head -n 1)
-            java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar
+            nohup java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar &>/dev/null &
+

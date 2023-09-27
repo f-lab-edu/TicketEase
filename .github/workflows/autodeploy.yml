@@ -64,5 +64,5 @@ jobs:
           port: ${{ env.PORT }}
           username: ${{ env.USERNAME }}
           password: ${{ env.PASSWORD }}
-        script: |
-          java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar
+          script: |
+            java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar

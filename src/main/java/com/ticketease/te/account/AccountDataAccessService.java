@@ -3,18 +3,18 @@ package com.ticketease.te.account;
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.member.Member;
-import com.ticketease.te.member.MemberDataAccessService;
+import com.ticketease.te.member.MemberReader;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AccountDataAccessService implements AccountReader, AccountWriter {
-	private final MemberDataAccessService memberDataAccessService;
+	private final MemberReader memberReader;
 	private final AccountRepository accountRepository;
 
 	public Long findAccountIdBy(String nickName) {
-		Member member = memberDataAccessService.findMemberByNickName(nickName);
+		Member member = memberReader.findMemberBy(nickName);
 		return member.getAccountId();
 	}
 

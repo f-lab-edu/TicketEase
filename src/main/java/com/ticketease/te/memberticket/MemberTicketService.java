@@ -17,7 +17,7 @@ public class MemberTicketService {
 	private final TicketDataAccessService ticketDataAccessService;
 
 	public void registerTicketForMember(String nickName, Long ticketId, Integer requestSeatCount) {
-		Member member = memberDataAccessService.findMemberByNickName(nickName);
+		Member member = memberDataAccessService.findMemberBy(nickName);
 		Ticket ticket = ticketDataAccessService.findTicketById(ticketId);
 		memberTicketDataAccessService.assignSeatsToMember(member.getId(), ticket.getId(),
 			ticket.getFixedPrice(), requestSeatCount);

@@ -46,7 +46,7 @@ public class MemberTicketServiceTest {
 		Member mockMember = Member.of(nickName, "password");
 		Ticket mockTicket = Ticket.of(Seat.of(100, Grade.S), 5000);
 
-		when(memberDataAccessService.findMemberByNickName(nickName)).thenReturn(mockMember);
+		when(memberDataAccessService.findMemberBy(nickName)).thenReturn(mockMember);
 
 		when(ticketDataAccessService.findTicketById(ticketId)).thenReturn(mockTicket);
 

@@ -33,7 +33,7 @@ public class MemberDataAccessServiceTest {
 
 		when(memberRepository.findByNickName(testNickName)).thenReturn(Optional.of(mockMember));
 
-		Member foundMember = memberDataAccessService.findMemberByNickName(testNickName);
+		Member foundMember = memberDataAccessService.findMemberBy(testNickName);
 
 		assertEquals(mockMember, foundMember);
 	}
@@ -46,6 +46,6 @@ public class MemberDataAccessServiceTest {
 		when(memberRepository.findByNickName(testNickName)).thenReturn(Optional.empty());
 
 		assertThrows(RuntimeException.class,
-			() -> memberDataAccessService.findMemberByNickName(testNickName));
+			() -> memberDataAccessService.findMemberBy(testNickName));
 	}
 }

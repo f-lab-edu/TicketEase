@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberDataAccessService {
+public class MemberDataAccessService implements MemberReader {
 	private final MemberRepository memberRepository;
 
-	public Member findMemberByNickName(String nickName) {
+	public Member findMemberBy(String nickName) {
 		return memberRepository.findByNickName(nickName)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 이름입니다 닉네임 : " + nickName));
 	}

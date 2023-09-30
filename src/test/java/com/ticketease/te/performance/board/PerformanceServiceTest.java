@@ -48,7 +48,7 @@ public class PerformanceServiceTest {
 
 		when(performanceRepository.findById(performanceId)).thenReturn(Optional.of(mockPerformance));
 
-		when(ticketDataAccessService.countTicketByGradeForPerformance(mockPerformance)).thenReturn(mockGradeCount);
+		when(ticketDataAccessService.countTicketByGradeFor(mockPerformance)).thenReturn(mockGradeCount);
 
 		GradeCount result = performanceService.countTicketByGradeForPerformance(performanceId);
 

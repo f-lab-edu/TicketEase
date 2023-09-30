@@ -3,7 +3,7 @@ package com.ticketease.te.performance;
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.ticket.GradeCount;
-import com.ticketease.te.ticket.TicketDataAccessService;
+import com.ticketease.te.ticket.TicketReader;
 
 import lombok.RequiredArgsConstructor;
 
@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PerformanceService {
 	private final PerformanceRepository performanceRepository;
-	private final TicketDataAccessService ticketDataAccessService;
+	private final TicketReader ticketReader;
 
 	public GradeCount countTicketByGradeForPerformance(Long performanceId) {
 		Performance performance = performanceRepository.findById(performanceId)
 			.orElseThrow(() -> new IllegalArgumentException("Performance not found with id: " + performanceId));
-		return ticketDataAccessService.countTicketByGradeForPerformance(performance);
+		return ticketReader.countTicketByGradeFor(performance);
 	}
 }

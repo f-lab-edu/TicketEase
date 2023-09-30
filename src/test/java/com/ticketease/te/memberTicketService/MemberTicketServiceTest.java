@@ -48,7 +48,7 @@ public class MemberTicketServiceTest {
 
 		when(memberDataAccessService.findMemberBy(nickName)).thenReturn(mockMember);
 
-		when(ticketDataAccessService.findTicketById(ticketId)).thenReturn(mockTicket);
+		when(ticketDataAccessService.findTicketBy(ticketId)).thenReturn(mockTicket);
 
 		memberTicketService.registerTicketForMember(nickName, ticketId, requestSeatCount);
 

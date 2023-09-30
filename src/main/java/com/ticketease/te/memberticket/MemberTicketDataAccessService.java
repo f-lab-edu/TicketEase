@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberTicketDataAccessService {
+public class MemberTicketDataAccessService implements MemberTicketWriter {
 	private final MemberTicketRepository memberTicketRepository;
 
 	public void assignSeatsToMember(Long memberId, Long ticketId,

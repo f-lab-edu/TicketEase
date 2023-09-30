@@ -7,16 +7,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TicketService {
-	private final TicketDataAccessService ticketDataAccessService;
+	private final TicketWriter ticketWriter;
+	private final TicketReader ticketReader;
 
 	public void deductSeatsAfterPayment(Long ticketId, Integer requestSeatCount) {
-		Seat seat = ticketDataAccessService.getSeat(ticketId);
+		Seat seat = ticketReader.getSeat(ticketId);
 		seat.reserveSeat(requestSeatCount);
-		ticketDataAccessService.saveTicket(ticketId);
+		ticketWriter.saveTicket(ticketId);
 	}
 
 	public Integer calculateTicketPrice(Long ticketId, Integer requestSeatCount) {
-		Ticket ticket = ticketDataAccessService.findTicketById(ticketId);
+		Ticket ticket = ticketReader.findTicketBy(ticketId);
 		return ticket.getFixedPrice() * requestSeatCount;
 	}
 }

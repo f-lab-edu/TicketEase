@@ -60,7 +60,7 @@ public class TicketDataAccessServiceTest {
 		map.put(Grade.S, 1000);
 
 		GradeCount expected = GradeCount.of(map);
-		GradeCount actual = ticketDataAccessService.countTicketByGradeForPerformance(performance);
+		GradeCount actual = ticketDataAccessService.countTicketByGradeFor(performance);
 
 		assertEquals(expected, actual);
 	}

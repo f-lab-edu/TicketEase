@@ -27,7 +27,7 @@ public class TicketServiceTest {
 		Seat seat = Seat.of(10, Grade.S);
 		Ticket ticket = Ticket.of(seat, 100);
 
-		when(ticketDataAccessService.findTicketById(ticketId)).thenReturn(ticket);
+		when(ticketDataAccessService.findTicketBy(ticketId)).thenReturn(ticket);
 
 		Integer totalAmount = ticketService.calculateTicketPrice(ticketId, requestSeatCount);
 

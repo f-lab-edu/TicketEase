@@ -32,15 +32,15 @@ public class AccountServiceTest {
 		Integer ticketPrice = 50_000;
 		Integer totalPaymentAmount = ticketPrice * requestSeatCount;
 
-		when(accountDataAccessService.findAccountIdByNickName(nickName)).thenReturn(1L);
-		when(accountDataAccessService.findAccountByAccountId(1L)).thenReturn(mockAccount);
+		when(accountDataAccessService.findAccountIdBy(nickName)).thenReturn(1L);
+		when(accountDataAccessService.findAccountBy(1L)).thenReturn(mockAccount);
 
 		accountService.deductAmountOnPayment(nickName, totalPaymentAmount);
 
 		assertEquals(50_000L, mockAccount.getAmount().longValue());
-		verify(accountDataAccessService, times(1)).findAccountIdByNickName(nickName);
-		verify(accountDataAccessService, times(1)).findAccountByAccountId(1L);
-		verify(accountDataAccessService, times(1)).renewAccount(mockAccount);
+		verify(accountDataAccessService, times(1)).findAccountIdBy(nickName);
+		verify(accountDataAccessService, times(1)).findAccountBy(1L);
+		verify(accountDataAccessService, times(1)).persist(mockAccount);
 	}
 
 	@Test
@@ -52,15 +52,15 @@ public class AccountServiceTest {
 		Integer ticketPrice = 50_000;
 		Integer totalPaymentAmount = ticketPrice * requestSeatCount;
 
-		when(accountDataAccessService.findAccountIdByNickName(nickName)).thenReturn(1L);
-		when(accountDataAccessService.findAccountByAccountId(1L)).thenReturn(mockAccount);
+		when(accountDataAccessService.findAccountIdBy(nickName)).thenReturn(1L);
+		when(accountDataAccessService.findAccountBy(1L)).thenReturn(mockAccount);
 
 		assertThrows(RuntimeException.class,
 			() -> accountService.deductAmountOnPayment(nickName, totalPaymentAmount));
 
-		verify(accountDataAccessService, times(1)).findAccountIdByNickName(nickName);
-		verify(accountDataAccessService, times(1)).findAccountByAccountId(1L);
-		verify(accountDataAccessService, never()).renewAccount(mockAccount);
+		verify(accountDataAccessService, times(1)).findAccountIdBy(nickName);
+		verify(accountDataAccessService, times(1)).findAccountBy(1L);
+		verify(accountDataAccessService, never()).persist(mockAccount);
 	}
 }
 

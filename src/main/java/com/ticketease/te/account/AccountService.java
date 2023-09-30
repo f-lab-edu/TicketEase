@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-	private final AccountDataAccessService accountDataAccessService;
+	private final AccountWriter accountWriter;
+	private final AccountReader accountReader;
 
 	public void deductAmountOnPayment(String nickName, Integer totalPaymentAmount) {
-		Long accountId = accountDataAccessService.findAccountIdByNickName(nickName);
-		Account account = accountDataAccessService.findAccountByAccountId(accountId);
+		Long accountId = accountReader.findAccountIdBy(nickName);
+		Account account = accountReader.findAccountBy(accountId);
 		account.deductAmount(totalPaymentAmount);
-		accountDataAccessService.renewAccount(account);
+		accountWriter.persist(account);
 	}
 }

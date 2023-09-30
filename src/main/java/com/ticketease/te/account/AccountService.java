@@ -2,18 +2,18 @@ package com.ticketease.te.account;
 
 import org.springframework.stereotype.Service;
 
-import com.ticketease.te.ticket.Ticket;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-	private final AccountRepository accountRepository;
+	private final AccountWriter accountWriter;
+	private final AccountReader accountReader;
 
-	public void deductAmount(Account account, Ticket ticket, Integer requestSeatCount) {
-		Integer totalPaymentAmount = ticket.getFixedPrice() * requestSeatCount;
+	public void deductAmountOnPayment(String nickName, Integer totalPaymentAmount) {
+		Long accountId = accountReader.findAccountIdBy(nickName);
+		Account account = accountReader.findAccountBy(accountId);
 		account.deductAmount(totalPaymentAmount);
-		accountRepository.save(account);
+		accountWriter.persist(account);
 	}
 }

@@ -3,65 +3,34 @@ package com.ticketease.te.ticket;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ticketease.te.performance.Performance;
-import com.ticketease.te.performance.PerformanceDateTime;
-
+@ExtendWith(MockitoExtension.class)
 public class TicketServiceTest {
 
 	@Mock
-	TicketRepository ticketRepository;
+	private TicketDataAccessService ticketDataAccessService;
 
 	@InjectMocks
-	TicketService ticketService;
+	private TicketService ticketService;
 
-	@BeforeEach
-	public void setUp() {
-		MockitoAnnotations.openMocks(this);
-	}
-
-	@DisplayName("공연 티켓 잔여 개수 조회에 성공한다")
+	@DisplayName("티켓 총액 계산을 성공한다")
 	@Test
-	void countTicketByGradeForShow() throws Exception {
-		final String name = "레베카";
-		final String description = "...";
-		final String performanceStartDateTime = "2023-01-01T00:00:00";
-		final String performanceEndDateTime = "2023-01-31T01:00:00";
-		PerformanceDateTime performanceDateTime = PerformanceDateTime.of(
-			LocalDateTime.parse(performanceStartDateTime),
-			LocalDateTime.parse(performanceEndDateTime));
-		Performance performance = Performance.of(name, description, performanceDateTime);
+	void testCalculateTicketPrice() {
+		Long ticketId = 1L;
+		Integer requestSeatCount = 3;
+		Seat seat = Seat.of(10, Grade.S);
+		Ticket ticket = Ticket.of(seat, 100);
 
-		List<Ticket> tickets = Arrays.asList(
-			Ticket.of(Seat.of(10, Grade.VIP), 100000),
-			Ticket.of(Seat.of(100, Grade.R), 80000),
-			Ticket.of(Seat.of(1000, Grade.S), 50000)
-		);
+		when(ticketDataAccessService.findTicketBy(ticketId)).thenReturn(ticket);
 
-		tickets.forEach(ticket -> performance.addTicketId(ticket.getId()));
+		Integer totalAmount = ticketService.calculateTicketPrice(ticketId, requestSeatCount);
 
-		when(ticketRepository.findAllById(performance.getTicketIds())).thenReturn(tickets);
-
-		Map<Grade, Integer> map = new HashMap<>();
-		map.put(Grade.VIP, 10);
-		map.put(Grade.R, 100);
-		map.put(Grade.S, 1000);
-
-		GradeCount expected = GradeCount.of(map);
-		GradeCount actual = ticketService.countTicketByGradeForPerformance(performance);
-
-		assertEquals(expected, actual);
+		assertEquals(300, totalAmount);
 	}
 }

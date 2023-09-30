@@ -14,19 +14,22 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class TicketControllerTest {
+import com.ticketease.te.Purchase.PurchaseController;
+import com.ticketease.te.Purchase.PurchaseFacadeService;
+
+public class PurchaseControllerTest {
 	private MockMvc mockMvc;
 
 	@InjectMocks
-	private TicketController ticketController;
+	private PurchaseController purchaseController;
 
 	@Mock
-	private TicketService ticketService;
+	private PurchaseFacadeService purchaseFacadeService;
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(ticketController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(purchaseController).build();
 	}
 
 	@Test
@@ -37,7 +40,7 @@ public class TicketControllerTest {
 		final Long ticketId = 1L;
 		final Integer requestSeatCount = 1;
 
-		doNothing().when(ticketService).purchaseTicket(nickName, ticketId, requestSeatCount);
+		doNothing().when(purchaseFacadeService).purchaseTicket(nickName, ticketId, requestSeatCount);
 
 		// When & Then
 		mockMvc.perform(post("/api/tickets/ticketReserve")
@@ -45,7 +48,7 @@ public class TicketControllerTest {
 				.param("ticketId", ticketId.toString())
 				.param("requestSeatCount", requestSeatCount.toString())
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk());
+			.andExpect(status().isNoContent());
 	}
 }
 

@@ -48,7 +48,7 @@ public class PurchaseControllerTest {
 				.param("ticketId", ticketId.toString())
 				.param("requestSeatCount", requestSeatCount.toString())
 				.contentType(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk());
+			.andExpect(status().isNoContent());
 	}
 }
 

@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +15,8 @@ import org.mockito.MockitoAnnotations;
 
 import com.ticketease.te.performance.Performance;
 import com.ticketease.te.performance.PerformanceDateTime;
-import com.ticketease.te.performance.PerformanceRepository;
-import com.ticketease.te.performance.PerformanceService;
+import com.ticketease.te.performance.PerformanceReader;
+import com.ticketease.te.performance.TicketCountFacadeService;
 import com.ticketease.te.ticket.Grade;
 import com.ticketease.te.ticket.GradeCount;
 import com.ticketease.te.ticket.TicketDataAccessService;
@@ -25,10 +24,10 @@ import com.ticketease.te.ticket.TicketDataAccessService;
 public class PerformanceServiceTest {
 
 	@InjectMocks
-	private PerformanceService performanceService;
+	private TicketCountFacadeService ticketCountFacadeService;
 
 	@Mock
-	private PerformanceRepository performanceRepository;
+	private PerformanceReader performanceReader;
 
 	@Mock
 	private TicketDataAccessService ticketDataAccessService;
@@ -46,23 +45,12 @@ public class PerformanceServiceTest {
 			PerformanceDateTime.of(LocalDateTime.now(), LocalDateTime.now().plusHours(2)));
 		GradeCount mockGradeCount = GradeCount.of(Map.of(Grade.S, 10, Grade.R, 5));
 
-		when(performanceRepository.findById(performanceId)).thenReturn(Optional.of(mockPerformance));
+		when(performanceReader.findBy(performanceId)).thenReturn(mockPerformance);
 
 		when(ticketDataAccessService.countTicketByGradeFor(mockPerformance)).thenReturn(mockGradeCount);
 
-		GradeCount result = performanceService.countTicketByGradeForPerformance(performanceId);
+		GradeCount result = ticketCountFacadeService.countTicketByGradeForPerformance(performanceId);
 
 		assertEquals(mockGradeCount, result);
-	}
-
-	@Test
-	@DisplayName("존재하지 않는 공연 ID로 조회 시 예외 발생")
-	void countTicketByGradeForPerformance_failure() {
-		Long nonExistentPerformanceId = 999L;
-
-		when(performanceRepository.findById(nonExistentPerformanceId)).thenReturn(Optional.empty());
-
-		assertThrows(IllegalArgumentException.class,
-			() -> performanceService.countTicketByGradeForPerformance(nonExistentPerformanceId));
 	}
 }

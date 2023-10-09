@@ -9,13 +9,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PerformanceService {
-	private final PerformanceRepository performanceRepository;
+public class TicketCountFacadeService {
+	private final PerformanceReader performanceReader;
 	private final TicketReader ticketReader;
 
 	public GradeCount countTicketByGradeForPerformance(Long performanceId) {
-		Performance performance = performanceRepository.findById(performanceId)
-			.orElseThrow(() -> new IllegalArgumentException("Performance not found with id: " + performanceId));
+		Performance performance = performanceReader.findBy(performanceId);
 		return ticketReader.countTicketByGradeFor(performance);
 	}
 }

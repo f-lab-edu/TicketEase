@@ -28,6 +28,9 @@ jobs:
       SOURCE_PATH: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_SOURCE_PATH }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Check for "deploy" tag
         run: |
           if git tag --contains ${{ github.sha }} | grep -q 'deploy'; then
@@ -36,10 +39,7 @@ jobs:
             echo "No deploy tag found. Skipping deployment."
             exit 1
           fi
-
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
+          
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

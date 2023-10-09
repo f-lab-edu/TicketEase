@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    #    if: github.event.pull_request.merged == true
+    #    if: github.event.pull_request.merged == trues
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,7 +39,7 @@ jobs:
             echo "No deploy tag found. Skipping deployment."
             exit 1
           fi
-          
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

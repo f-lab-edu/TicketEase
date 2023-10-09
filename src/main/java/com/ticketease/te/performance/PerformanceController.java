@@ -12,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class PerformanceController {
-	private final PerformanceService performanceService;
+	private final TicketCountFacadeService ticketCountFacadeService;
 
-	@GetMapping("/api/show/{performanceId}/availableSeat")
+	@GetMapping("/api/shows/{performanceId}/availableSeat")
 	public ResponseEntity<GradeCount> countTicketByGradeFor(@RequestParam Long performanceId) {
-		GradeCount gradeCount = performanceService.countTicketByGradeForPerformance(performanceId);
+		GradeCount gradeCount = ticketCountFacadeService.countTicketByGradeForPerformance(performanceId);
 		return ResponseEntity.ok(gradeCount);
 	}
 }

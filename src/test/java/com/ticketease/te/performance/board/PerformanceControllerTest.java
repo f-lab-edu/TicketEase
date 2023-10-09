@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ticketease.te.performance.PerformanceController;
-import com.ticketease.te.performance.PerformanceService;
+import com.ticketease.te.performance.TicketCountFacadeService;
 import com.ticketease.te.ticket.Grade;
 import com.ticketease.te.ticket.GradeCount;
 
@@ -29,7 +29,7 @@ public class PerformanceControllerTest {
 	private PerformanceController performanceController;
 
 	@Mock
-	private PerformanceService performanceService;
+	private TicketCountFacadeService ticketCountFacadeService;
 
 	@BeforeEach
 	void setUp() {
@@ -43,7 +43,7 @@ public class PerformanceControllerTest {
 		Long performanceId = 1L;
 
 		GradeCount mockGradeCount = new GradeCount(Map.of(Grade.VIP, 10, Grade.R, 5, Grade.S, 7));
-		given(performanceService.countTicketByGradeForPerformance(performanceId)).willReturn(mockGradeCount);
+		given(ticketCountFacadeService.countTicketByGradeForPerformance(performanceId)).willReturn(mockGradeCount);
 
 		String expectedJsonResponse = "{"
 			+ "\"gradeCountMap\":{"
@@ -53,7 +53,7 @@ public class PerformanceControllerTest {
 			+ "}"
 			+ "}";
 
-		mockMvc.perform(get("/api/show/{performanceId}/availableSeat", performanceId)
+		mockMvc.perform(get("/api/shows/{performanceId}/availableSeat", performanceId)
 				.param("performanceId", performanceId.toString())
 				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())

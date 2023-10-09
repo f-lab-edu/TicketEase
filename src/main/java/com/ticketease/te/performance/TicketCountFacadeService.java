@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PerformanceService {
+public class TicketCountFacadeService {
 	private final PerformanceReader performanceReader;
 	private final TicketReader ticketReader;
 

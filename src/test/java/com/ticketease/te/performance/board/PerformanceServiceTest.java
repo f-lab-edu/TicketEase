@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import com.ticketease.te.performance.Performance;
 import com.ticketease.te.performance.PerformanceDateTime;
 import com.ticketease.te.performance.PerformanceReader;
-import com.ticketease.te.performance.PerformanceService;
+import com.ticketease.te.performance.TicketCountFacadeService;
 import com.ticketease.te.ticket.Grade;
 import com.ticketease.te.ticket.GradeCount;
 import com.ticketease.te.ticket.TicketDataAccessService;
@@ -24,7 +24,7 @@ import com.ticketease.te.ticket.TicketDataAccessService;
 public class PerformanceServiceTest {
 
 	@InjectMocks
-	private PerformanceService performanceService;
+	private TicketCountFacadeService ticketCountFacadeService;
 
 	@Mock
 	private PerformanceReader performanceReader;
@@ -49,7 +49,7 @@ public class PerformanceServiceTest {
 
 		when(ticketDataAccessService.countTicketByGradeFor(mockPerformance)).thenReturn(mockGradeCount);
 
-		GradeCount result = performanceService.countTicketByGradeForPerformance(performanceId);
+		GradeCount result = ticketCountFacadeService.countTicketByGradeForPerformance(performanceId);
 
 		assertEquals(mockGradeCount, result);
 	}

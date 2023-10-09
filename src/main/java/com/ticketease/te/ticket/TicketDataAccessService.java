@@ -22,11 +22,17 @@ public class TicketDataAccessService implements TicketReader, TicketWriter {
 	}
 
 	public Seat getSeat(Long ticketId) {
-		Ticket ticket = findTicketBy(ticketId);
+		Ticket ticket = findTicketWithLockBy(ticketId);
 		return ticket.getSeat();
 	}
 
 	public GradeCount countTicketByGradeFor(Performance performance) {
 		return GradeCount.from(ticketRepository.findAllById(performance.getTicketIds()));
+	}
+
+	public Ticket findTicketWithLockBy(Long ticketId) {
+		return ticketRepository.findByIdForUpdate(ticketId).orElseThrow(
+			() -> new RuntimeException("존재하지 않는 티켓입니다.")
+		);
 	}
 }

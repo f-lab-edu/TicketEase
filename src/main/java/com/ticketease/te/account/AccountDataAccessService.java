@@ -22,7 +22,7 @@ public class AccountDataAccessService implements AccountReader, AccountWriter {
 		return accountRepository.findById(accountId)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 계좌입니다"));
 	}
-
+	
 	public void persist(Account account) {
 		accountRepository.save(account);
 	}

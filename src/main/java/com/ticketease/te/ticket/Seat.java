@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Seat {
 	private Integer seatCount;
+	private Integer version;
 	@Enumerated(value = EnumType.STRING)
 	private Grade grade;
 

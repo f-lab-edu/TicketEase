@@ -1,9 +1,9 @@
 name: Deploy
 
 on:
-  push:
-    tags:
-      - 'release*'
+  repository_dispatch:
+    types:
+      - tag-created
 
 jobs:
   deploy:
@@ -24,6 +24,15 @@ jobs:
       SOURCE_PATH: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_SOURCE_PATH }}
 
     steps:
+      - name: Check for "release" tag
+        run: |
+          if [[ "${{ github.event.client_payload.tag_name }}" == "release" ]]; then
+            echo "Release tag found."
+          else
+            echo "No release tag found. Skipping deployment."
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v3
 

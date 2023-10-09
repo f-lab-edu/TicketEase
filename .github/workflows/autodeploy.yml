@@ -31,6 +31,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: check tag
+        run: |
+          TAGS=$(git tag --contains ${{ github.sha }})
+          echo "Tags containing the commit: $TAGS"
+
       - name: Check for "deploy" tag
         run: |
           if git tag --contains ${{ github.sha }} | grep -q 'deploy'; then

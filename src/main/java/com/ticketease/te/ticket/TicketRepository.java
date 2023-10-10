@@ -13,7 +13,7 @@ import jakarta.persistence.LockModeType;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 	List<Ticket> findByPerformanceId(Long performanceId);
 
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Lock(LockModeType.PESSIMISTIC_READ)
 	@Query("SELECT t FROM Ticket t WHERE t.id = :id")
 	Optional<Ticket> findByIdForUpdate(@Param("id") Long id);
 }

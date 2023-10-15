@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.ticketease.te.Purchase.PurchaseController;
-import com.ticketease.te.Purchase.PurchaseFacadeService;
+import com.ticketease.te.Purchase.PurchaseTicketLock;
 
 public class PurchaseControllerTest {
 	private MockMvc mockMvc;
@@ -24,7 +24,7 @@ public class PurchaseControllerTest {
 	private PurchaseController purchaseController;
 
 	@Mock
-	private PurchaseFacadeService purchaseFacadeService;
+	private PurchaseTicketLock purchaseTicketLock;
 
 	@BeforeEach
 	void setUp() {
@@ -40,7 +40,7 @@ public class PurchaseControllerTest {
 		final Long ticketId = 1L;
 		final Integer requestSeatCount = 1;
 
-		doNothing().when(purchaseFacadeService).purchaseTicket(nickName, ticketId, requestSeatCount);
+		doNothing().when(purchaseTicketLock).purchaseInOrder(nickName, ticketId, requestSeatCount);
 
 		// When & Then
 		mockMvc.perform(post("/api/tickets/ticketReserve")

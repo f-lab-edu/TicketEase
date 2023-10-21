@@ -17,11 +17,11 @@ public class PurchaseFacadeService {
 	private final MemberTicketService memberTicketService;
 
 	@Transactional
-	public synchronized void purchaseTicket(final String nickName, final Long ticketId,
+	public void purchaseTicket(final String nickName, final Long ticketId,
 		final Integer requestSeatCount) {
 		Integer totalPaymentAmount = ticketService.calculateTicketPrice(ticketId, requestSeatCount);
-		accountService.deductAmountOnPayment(nickName, totalPaymentAmount);
 		ticketService.deductSeatsAfterPayment(ticketId, requestSeatCount);
+		accountService.deductAmountOnPayment(nickName, totalPaymentAmount);
 		memberTicketService.registerTicketForMember(nickName, ticketId, requestSeatCount);
 	}
 }

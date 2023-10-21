@@ -8,4 +8,6 @@ public interface TicketReader {
 	Seat getSeat(Long ticketId);
 
 	GradeCount countTicketByGradeFor(Performance performance);
+
+	Ticket findTicketWithLockBy(Long ticketId);
 }

@@ -9,17 +9,14 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class PurchaseController {
-	private final PurchaseFacadeService purchaseFacadeService;
+	private final PurchaseTicketLock purchaseTicketLock;
 
 	@PostMapping("/api/tickets/ticketReserve")
 	public ResponseEntity<String> reserveTicket(PurchaseRequest purchaseRequest) {
-
-		purchaseFacadeService.purchaseTicket
-			(
-				purchaseRequest.nickName(),
-				purchaseRequest.ticketId(),
-				purchaseRequest.requestSeatCount()
-			);
+		purchaseTicketLock.purchaseInOrder(
+			purchaseRequest.nickName(),
+			purchaseRequest.ticketId(),
+			purchaseRequest.requestSeatCount());
 		return ResponseEntity.noContent().build();
 	}
 }

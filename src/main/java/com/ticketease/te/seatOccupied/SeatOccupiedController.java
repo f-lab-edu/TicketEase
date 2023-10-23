@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,15 +16,13 @@ import lombok.RequiredArgsConstructor;
 public class SeatOccupiedController {
 	private final SeatOccupiedService seatOccupiedService;
 
-	@PostMapping
+	@PostMapping("/api/SeatOccupied")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@RequestMapping("/api/SeatOccupied")
 	public void occupiedSeat(String ticketId, Long userId, int requestCount) {
 		seatOccupiedService.occupiedSeat(ticketId, userId, requestCount);
 	}
 
-	@GetMapping
-	@RequestMapping("/apiV2/shows/{performanceId}/availableSeat")
+	@GetMapping("/apiV2/shows/{performanceId}/availableSeat")
 	public ResponseEntity<GradeCount> getAvailableSeats(Long performanceId) {
 		return ResponseEntity.ok().body(seatOccupiedService.getAvailableSeats(performanceId));
 	}

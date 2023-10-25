@@ -1,0 +1,89 @@
+name: Deploy
+
+on:
+  push:
+#  pull_request:
+#    branches:
+#      - develop
+#    types:
+#      - closed
+
+jobs:
+  deploy:
+    #    if: github.event.pull_request.merged == trues
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    env:
+      DB_URL: ${{ secrets.NAVER_CLOUD_MYSQL_URL }}
+      DB_ID: ${{ secrets.NAVER_CLOUD_MYSQL_ID }}
+      DB_PW: ${{ secrets.NAVER_CLOUD_MYSQL_PW }}
+      HOST: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_IP }}
+      PORT: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_PORT }}
+      USERNAME: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_USERNAME }}
+      PASSWORD: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_PASSWORD }}
+      SOURCE_PATH: ${{ secrets.NAVER_CLOUD_REMOTE_SERVER_SOURCE_PATH }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: check tag
+        run: |
+          TAGS=$(git tag --contains ${{ github.sha }})
+          echo "Tags containing the commit: $TAGS"
+
+      - name: Check for "deploy" tag
+        run: |
+          if git tag --contains ${{ github.sha }} | grep -q 'deploy'; then
+            echo "Deploy tag found."
+          else
+            echo "No deploy tag found. Skipping deployment."
+            exit 1
+          fi
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Substitute application.yml variables -> github secrets
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ./src/main/resources/application-prod.yml
+        env:
+          spring.datasource.url: ${{ env.DB_URL }}
+          spring.datasource.username: ${{ env.DB_ID }}
+          spring.datasource.password: ${{ env.DB_PW }}
+
+      - name: Build with Gradle(Without Test)
+        run: |
+          chmod +x gradlew
+          ./gradlew build -x test
+
+      - name: Deploy over SSH(1/2) Copy jar to Remote Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ env.HOST }}
+          port: ${{ env.PORT }}
+          username: ${{ env.USERNAME }}
+          password: ${{ env.PASSWORD }}
+          source: "./build/libs/ticketease-prod.jar"
+          target: ${{ env.SOURCE_PATH }}
+
+      - name: Deploy over SSH(2/2) Run SpringBoot on Remote Server
+        uses: appleboy/ssh-action@master
+        id: deploy
+        with:
+          host: ${{ env.HOST }}
+          port: ${{ env.PORT }}
+          username: ${{ env.USERNAME }}
+          password: ${{ env.PASSWORD }}
+          script: |
+            kill -9 $(ps -ef | grep ticketease-prod.jar | awk '{print $2}' | head -n 1)
+            nohup java -jar ${{ env.SOURCE_PATH }}/build/libs/ticketease-prod.jar &>/dev/null &
+

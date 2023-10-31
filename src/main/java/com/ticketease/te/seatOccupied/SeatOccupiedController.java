@@ -16,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 public class SeatOccupiedController {
 	private final SeatOccupiedService seatOccupiedService;
 
-	@PostMapping("/api/SeatOccupied")
+	@PostMapping("/api/SeatOccupy")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void occupiedSeat(String ticketId, Long userId, int requestCount) {
 		seatOccupiedService.occupiedSeat(ticketId, userId, requestCount);
 	}
 
-	@GetMapping("/apiV2/shows/{performanceId}/availableSeat")
+	@GetMapping("/apiV2/shows/{performanceId}/availableSeats")
 	public ResponseEntity<GradeCount> getAvailableSeats(Long performanceId) {
 		return ResponseEntity.ok().body(seatOccupiedService.getAvailableSeats(performanceId));
 	}

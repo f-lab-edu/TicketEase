@@ -3,9 +3,7 @@ package com.ticketease.te.seatOccupied;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.performance.PerformanceDataAccessService;
@@ -15,12 +13,12 @@ import com.ticketease.te.ticket.GradeCount;
 import com.ticketease.te.ticket.Ticket;
 import com.ticketease.te.ticket.TicketDataAccessService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SeatOccupiedService {
-	private StringRedisTemplate redisTemplate;
+	private final SeatOccupy seatOccupy;
 	private final TicketCountFacadeService ticketCountFacadeService;
 	private final PerformanceDataAccessService performanceDataAccessService;
 	private final TicketDataAccessService ticketDataAccessService;
@@ -28,37 +26,27 @@ public class SeatOccupiedService {
 	public void occupiedSeat(String ticketId, Long userId, int requestCount) {
 
 		String userKey = String.valueOf(userId);
-		Long remainingSeats = redisTemplate.opsForHash().increment(ticketId, userKey, -requestCount);
+		String redisKey = seatOccupy.makeRedisKey(ticketId);
+
+		Long remainingSeats = seatOccupy.incrementSeats(redisKey, userKey, requestCount);
 
 		if (remainingSeats < 0) {
-			redisTemplate.opsForHash().increment(ticketId, userKey, requestCount);
-			throw new RuntimeException("좌석이 부족합니다.");
+			seatOccupy.incrementSeats(redisKey, userKey, -requestCount);
 		}
 
-		redisTemplate.expire(ticketId, 5, TimeUnit.MINUTES);
-	}
-
-	public int getReservedCountBySeatId(String ticketId) {
-		Map<Object, Object> userReservations = redisTemplate.opsForHash().entries(ticketId);
-
-		int totalReserved = 0;
-		for (Object count : userReservations.values()) {
-			totalReserved += (Integer)count;
-		}
-
-		return totalReserved;
+		seatOccupy.setExpire(redisKey, 5);
 	}
 
 	public GradeCount getAvailableSeats(Long performanceId) {
-		List<Long> ticketList = performanceDataAccessService.findBy(performanceId).getTicketIds();
+		List<Long> ticketIds = performanceDataAccessService.findBy(performanceId).getTicketIds();
 
 		GradeCount totalSeats = ticketCountFacadeService.countTicketByGradeForPerformance(performanceId);
 
+		List<Ticket> tickets = ticketDataAccessService.findTicketsBy(ticketIds);
 		// 각 seatId에 대한 선점 좌석 수 계산
 		Map<Grade, Integer> reservedSeats = new EnumMap<>(Grade.class);
-		for (Long ticketId : ticketList) {
-			Ticket ticket = ticketDataAccessService.findTicketBy(ticketId);
-			int reservedCount = getReservedCountBySeatId(String.valueOf(ticketId));
+		for (Ticket ticket : tickets) {
+			int reservedCount = getReservedCountBySeatId(String.valueOf(ticket.getId()));
 			Grade grade = ticket.getGrade();
 			reservedSeats.put(grade, reservedSeats.getOrDefault(grade, 0) + reservedCount);
 		}
@@ -74,4 +62,15 @@ public class SeatOccupiedService {
 		return GradeCount.of(availableSeats);
 	}
 
+	public int getReservedCountBySeatId(String ticketId) {
+		String redisKey = seatOccupy.makeRedisKey(ticketId);
+		Map<Object, Object> userReservations = seatOccupy.getHashEntries(redisKey);
+
+		int totalReserved = 0;
+		for (Object count : userReservations.values()) {
+			totalReserved += (Integer)count;
+		}
+
+		return totalReserved;
+	}
 }

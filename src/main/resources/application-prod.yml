@@ -15,3 +15,4 @@ spring:
     hibernate:
       # create 안쓰려면 springboot 실행 이전에 github action 원격지 linux 컨테이너에서 셸스크립트로 도커 컨테이너에 설치된 MySQL에 SQL을 실행시켜야함. 청천님의 슈퍼세이브 필요
       ddl-auto: create
+    open-in-view: false

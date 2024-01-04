@@ -1,5 +1,7 @@
 package com.ticketease.te.ticket;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ticketease.te.performance.Performance;
@@ -14,6 +16,10 @@ public class TicketDataAccessService implements TicketReader, TicketWriter {
 	public Ticket findTicketBy(Long ticketId) {
 		return ticketRepository.findById(ticketId)
 			.orElseThrow(() -> new RuntimeException("존재하지 않는 상품입니다 상품Id : " + ticketId));
+	}
+
+	public List<Ticket> findTicketsBy(List<Long> ticketIds) {
+		return ticketRepository.findAllById(ticketIds);
 	}
 
 	public void saveTicket(Long ticketId) {

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PurchaseLock implements Lockable {
-	private final ConcurrentHashMap<Long, ReentrantLock> lockMap = new ConcurrentHashMap<>();
-	private final ConcurrentHashMap<Long, Long> timestampMap = new ConcurrentHashMap<>();
+	private final Map<Long, ReentrantLock> lockMap = new ConcurrentHashMap<>();
+	private final Map<Long, Long> timestampMap = new ConcurrentHashMap<>();
 	private final ScheduledExecutorService ticketLockChecker = Executors.newScheduledThreadPool(1);
 
 	private PurchaseLock() {
